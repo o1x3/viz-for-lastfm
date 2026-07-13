@@ -17,7 +17,7 @@ export function TopTracks({ tracks }: { tracks: TopTrack[] }) {
           Top Tracks
         </h2>
         {tracks.length > 0 && (
-          <span className="font-mono text-[11px] tnum text-muted-foreground/60">
+          <span className="font-mono text-[11px] tnum text-muted-foreground">
             {String(tracks.length).padStart(2, "0")}
           </span>
         )}
@@ -37,11 +37,11 @@ export function TopTracks({ tracks }: { tracks: TopTrack[] }) {
                   href={track.url}
                   target="_blank"
                   rel="noopener"
-                  className="group flex items-baseline gap-3 py-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="group flex items-baseline gap-3 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   <span
                     className={`w-6 shrink-0 text-right font-mono text-xs tnum ${
-                      top3 ? "text-primary" : "text-muted-foreground/70"
+                      top3 ? "text-primary" : "text-muted-foreground"
                     }`}
                     aria-hidden="true"
                   >
@@ -57,7 +57,7 @@ export function TopTracks({ tracks }: { tracks: TopTrack[] }) {
                   <span className="max-w-[28%] truncate text-xs text-muted-foreground">
                     {track.artist}
                   </span>
-                  <span className="shrink-0 font-mono text-xs tnum text-muted-foreground">
+                  <span className="shrink-0 font-mono text-xs tnum text-muted-foreground transition-colors duration-200 ease-out group-hover:text-primary">
                     {formatNumber(track.playcount)}
                   </span>
                 </a>

@@ -121,7 +121,11 @@ export function NowPlaying({
         className="size-10 shrink-0"
       />
 
-      <p className="min-w-0 truncate text-sm">
+      {/* mobile: wrap to 2 lines at word boundaries; sm+: single line with ellipsis */}
+      <p
+        className="min-w-0 text-sm line-clamp-2 sm:line-clamp-1"
+        title={`${track.name} — ${track.artist}`}
+      >
         <span className="font-medium text-foreground">{track.name}</span>
         <span className="text-muted-foreground"> — {track.artist}</span>
       </p>

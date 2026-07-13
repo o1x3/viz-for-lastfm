@@ -1,9 +1,10 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { motion } from "motion/react";
-import type { ReactNode } from "react";
-
-/** Staggered load reveal for the landing page. Server pages pass children in. */
+/**
+ * Staggered load reveal for the landing page. Pure CSS (see .reveal in
+ * globals.css) so content never depends on JS/hydration to become visible —
+ * the fade runs immediately on paint, and prefers-reduced-motion collapses it.
+ */
 export function Reveal({
   children,
   delay = 0,
@@ -14,13 +15,11 @@ export function Reveal({
   className?: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+    <div
+      className={className ? `reveal ${className}` : "reveal"}
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

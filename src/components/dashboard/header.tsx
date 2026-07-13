@@ -39,7 +39,7 @@ export function DashHeader({
       <div className="flex items-baseline justify-between border-b border-border py-4">
         <Link
           href="/"
-          className="font-display text-xl italic tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="font-display text-xl italic tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           Sleeve
         </Link>
@@ -57,7 +57,7 @@ export function DashHeader({
               <form action="/api/auth/logout" method="post">
                 <button
                   type="submit"
-                  className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   sign out
                 </button>

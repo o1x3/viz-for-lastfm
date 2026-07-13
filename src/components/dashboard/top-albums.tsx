@@ -17,7 +17,7 @@ export function TopAlbums({ albums }: { albums: TopAlbum[] }) {
           Top Albums
         </h2>
         {albums.length > 0 && (
-          <span className="font-mono text-[11px] tnum text-muted-foreground/60">
+          <span className="font-mono text-[11px] tnum text-muted-foreground">
             {String(albums.length).padStart(2, "0")}
           </span>
         )}
@@ -40,20 +40,20 @@ export function TopAlbums({ albums }: { albums: TopAlbum[] }) {
                   href={album.url}
                   target="_blank"
                   rel="noopener"
-                  className="group block focus-visible:outline-2 focus-visible:outline-offset-4"
+                  className="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <ArtTile
                       src={album.image}
                       alt={`${album.name} by ${album.artist}`}
                       label={album.name}
-                      className="w-full transition-opacity duration-200 group-hover:opacity-85"
+                      className="w-full transition-transform duration-200 ease-out motion-safe:group-hover:scale-[1.02]"
                     />
                     <span
-                      className={`absolute top-2 left-2 z-10 px-1.5 py-0.5 font-mono text-[10px] tnum tracking-wider ${
+                      className={`absolute top-2 left-2 z-10 px-1.5 py-0.5 font-mono text-[10px] tnum tracking-wider transition-colors duration-200 ease-out ${
                         first
                           ? "bg-primary text-primary-foreground"
-                          : "bg-background/85 text-foreground backdrop-blur-sm"
+                          : "bg-background/85 text-foreground backdrop-blur-sm group-hover:bg-primary group-hover:text-primary-foreground"
                       }`}
                       aria-hidden="true"
                     >
@@ -73,9 +73,9 @@ export function TopAlbums({ albums }: { albums: TopAlbum[] }) {
                     <span className="truncate text-xs text-muted-foreground">
                       {album.artist}
                     </span>
-                    <span className="font-mono text-[11px] tnum text-muted-foreground/70">
+                    <span className="font-mono text-[11px] tnum text-muted-foreground">
                       {formatNumber(album.playcount)}
-                      <span className="text-muted-foreground/50"> plays</span>
+                      <span> plays</span>
                     </span>
                   </div>
                 </a>

@@ -8,11 +8,12 @@ import { formatNumber } from "@/lib/format";
  * right. Rank 1 carries the crimson.
  */
 
+/** Fluid type tiers — clamp() keeps rank-1 names from overflowing at 375px. */
 function nameTier(rank: number): string {
-  if (rank === 1) return "text-5xl sm:text-6xl lg:text-7xl font-semibold";
-  if (rank <= 3) return "text-3xl sm:text-4xl lg:text-5xl font-medium";
-  if (rank <= 6) return "text-2xl sm:text-3xl font-medium";
-  return "text-xl sm:text-2xl font-normal";
+  if (rank === 1) return "text-[clamp(2rem,8vw,4.5rem)] font-semibold";
+  if (rank <= 3) return "text-[clamp(1.5rem,6vw,3rem)] font-medium";
+  if (rank <= 6) return "text-[clamp(1.25rem,4.5vw,1.875rem)] font-medium";
+  return "text-[clamp(1.125rem,3.5vw,1.5rem)] font-normal";
 }
 
 export function TopArtists({ artists }: { artists: TopArtist[] }) {
@@ -43,7 +44,7 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
                 href={artist.url}
                 target="_blank"
                 rel="noopener"
-                className="group block py-3 focus-visible:outline-2 focus-visible:outline-offset-4"
+                className="group block py-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
               >
                 <div className="flex items-baseline gap-4 sm:gap-5">
                   <span
@@ -55,7 +56,7 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
                     {String(artist.rank).padStart(2, "0")}
                   </span>
                   <span
-                    className={`min-w-0 truncate font-display leading-[1.05] tracking-tight transition-colors duration-200 ${nameTier(
+                    className={`min-w-0 break-words font-display leading-[1.05] tracking-tight transition-colors duration-200 ease-out ${nameTier(
                       artist.rank
                     )} ${
                       first
@@ -67,7 +68,7 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
                   </span>
                   <span className="ml-auto shrink-0 whitespace-nowrap font-mono text-xs tnum text-muted-foreground">
                     {formatNumber(artist.playcount)}
-                    <span className="text-muted-foreground/50"> plays</span>
+                    <span> plays</span>
                   </span>
                 </div>
                 <div
@@ -104,7 +105,7 @@ function SectionHeader({ count }: { count: number }) {
         Top Artists
       </h2>
       {count > 0 && (
-        <span className="font-mono text-[11px] tnum text-muted-foreground/60">
+        <span className="font-mono text-[11px] tnum text-muted-foreground">
           {String(count).padStart(2, "0")}
         </span>
       )}

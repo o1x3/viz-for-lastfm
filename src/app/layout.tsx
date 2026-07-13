@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, Fraunces, Spline_Sans_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -20,9 +20,32 @@ const splineMono = Spline_Sans_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sleeve — your Last.fm, beautifully",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: {
+    default: "Sleeve — liner notes for your listening",
+    template: "%s · Sleeve",
+  },
   description:
-    "A liner-notes dashboard for your Last.fm scrobbles. Bring your own API key; nothing is stored.",
+    "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved — bring your own API key; nothing is stored.",
+  openGraph: {
+    type: "website",
+    siteName: "Sleeve",
+    title: "Sleeve — liner notes for your listening",
+    description:
+      "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sleeve — liner notes for your listening",
+    description:
+      "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#12100d",
 };
 
 export default function RootLayout({

@@ -47,7 +47,7 @@ export function ListeningClock({ byHour }: { byHour: number[] }) {
   return (
     <figure className="w-full">
       <svg
-        viewBox="0 0 320 320"
+        viewBox="-8 -8 336 336"
         role="img"
         aria-label={label}
         className="block w-full h-auto"

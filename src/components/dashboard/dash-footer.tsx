@@ -9,7 +9,7 @@ export function DashFooter({ isDemo }: { isDemo: boolean }) {
           this is sample data —{" "}
           <Link
             href="/"
-            className="underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             connect your own account
           </Link>
@@ -22,7 +22,7 @@ export function DashFooter({ isDemo }: { isDemo: boolean }) {
             href="https://www.last.fm"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             Last.fm
           </a>

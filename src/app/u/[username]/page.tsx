@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getDashboardData } from "@/lib/data";
+import { Suspense } from "react";
+import { getProfile } from "@/lib/data";
 import { PERIODS, type Period } from "@/lib/lastfm/types";
 import { DashHeader } from "@/components/dashboard/header";
 import { NowPlaying } from "@/components/dashboard/now-playing";
-import { StatTiles } from "@/components/dashboard/stat-tiles";
 import { PeriodSwitcher } from "@/components/dashboard/period-switcher";
-import { RecentTracks } from "@/components/dashboard/recent-tracks";
 import { DashFooter } from "@/components/dashboard/dash-footer";
-// Built by sibling agents — imported per contract.
-import { ListeningClock } from "@/components/charts/listening-clock";
-import { WeekdayBars } from "@/components/charts/weekday-bars";
-import { DayStrip } from "@/components/charts/day-strip";
-import { TopArtists } from "@/components/dashboard/top-artists";
-import { TopAlbums } from "@/components/dashboard/top-albums";
-import { TopTracks } from "@/components/dashboard/top-tracks";
-import { LovedTracks } from "@/components/dashboard/loved-tracks";
+import {
+  StatTilesSkeleton,
+  RhythmsSkeleton,
+  RotationSkeleton,
+  TrackColumnSkeleton,
+} from "@/components/dashboard/section-skeletons";
+import {
+  StatsBand,
+  RhythmsBody,
+  RotationBody,
+  RecentAndLovedSection,
+} from "./sections";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -128,39 +131,32 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
   const username = decodeURIComponent(rawUsername);
   const period = parsePeriod(sp.period);
 
-  const result = await getDashboardData(username, period);
-  if (!result.ok) {
-    return <ErrorState code={result.error} username={username} />;
+  // Only the fast profile fetch (user info + one recent-tracks page) blocks
+  // the first flush. Everything below streams in via Suspense.
+  const profile = await getProfile(username);
+  if (!profile.ok) {
+    return <ErrorState code={profile.error} username={username} />;
   }
-  const { data } = result;
+  const { info, recent, isOwner, isDemo } = profile.data;
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 md:px-10">
-      <DashHeader info={data.info} isOwner={data.isOwner} isDemo={data.isDemo} />
+      <DashHeader info={info} isOwner={isOwner} isDemo={isDemo} />
 
-      <NowPlaying initial={data.recent.tracks[0] ?? null} isOwner={data.isOwner} />
+      <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
 
       <div className="mt-10">
-        <StatTiles info={data.info} stats={data.stats} />
+        <Suspense fallback={<StatTilesSkeleton />}>
+          <StatsBand username={username} />
+        </Suspense>
       </div>
 
       {/* Rhythms — when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-16">
         <SectionHeading kicker="the last 90 days" title="Rhythms" id="rhythms-heading" />
-        <div className="mt-8 grid gap-10 lg:grid-cols-5 lg:gap-12">
-          <div className="lg:col-span-3">
-            <ListeningClock byHour={data.stats.byHour} />
-          </div>
-          <div className="flex flex-col gap-10 lg:col-span-2">
-            <WeekdayBars byWeekday={data.stats.byWeekday} />
-            <DayStrip byDay={data.stats.byDay} from={data.stats.from} to={data.stats.to} />
-          </div>
-        </div>
-        {data.stats.truncated && (
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground/60">
-            based on the most recent scrobbles
-          </p>
-        )}
+        <Suspense fallback={<RhythmsSkeleton />}>
+          <RhythmsBody username={username} />
+        </Suspense>
       </section>
 
       {/* On rotation — the charts */}
@@ -168,22 +164,26 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
         <SectionHeading kicker="heavy rotation" title="On rotation" id="rotation-heading">
           <PeriodSwitcher current={period} />
         </SectionHeading>
-        <div className="mt-8">
-          <TopArtists artists={data.topArtists} />
-        </div>
-        <div className="mt-12 grid gap-12 lg:grid-cols-2">
-          <TopAlbums albums={data.topAlbums} />
-          <TopTracks tracks={data.topTracks} />
-        </div>
+        <Suspense fallback={<RotationSkeleton />}>
+          <RotationBody username={username} period={period} />
+        </Suspense>
       </section>
 
       {/* The log + loved */}
       <div className="mt-16 grid gap-12 lg:grid-cols-2">
-        <RecentTracks page={data.recent} />
-        <LovedTracks tracks={data.loved} />
+        <Suspense
+          fallback={
+            <>
+              <TrackColumnSkeleton />
+              <TrackColumnSkeleton />
+            </>
+          }
+        >
+          <RecentAndLovedSection username={username} />
+        </Suspense>
       </div>
 
-      <DashFooter isDemo={data.isDemo} />
+      <DashFooter isDemo={isDemo} />
     </main>
   );
 }

@@ -6,6 +6,8 @@ import type { ListeningStats } from "./types";
 const PAGE_SIZE = 200;
 /** Hard cap on API pages per stats computation (~6k scrobbles ≈ 2 months for heavy listeners). */
 const MAX_PAGES = 30;
+/** Pages fetched concurrently after page 1 reveals the total. */
+const BATCH_SIZE = 5;
 /** Analyze the last 90 days. */
 const WINDOW_DAYS = 90;
 
@@ -23,23 +25,11 @@ async function computeStats(creds: Credentials, user: string, now: number): Prom
   const artists = new Set<string>();
   const tracks = new Set<string>();
   let total = 0;
-  let truncated = false;
 
-  let page = 1;
-  let totalPages = 1;
-  while (page <= totalPages) {
-    if (page > MAX_PAGES) {
-      truncated = true;
-      break;
-    }
-    const res = await getRecentTracks(creds, user, {
-      limit: PAGE_SIZE,
-      page,
-      from,
-      to,
-      revalidate: 900,
-    });
-    totalPages = res.totalPages || 1;
+  const fetchPage = (page: number) =>
+    getRecentTracks(creds, user, { limit: PAGE_SIZE, page, from, to, revalidate: 900 });
+
+  const ingest = (res: Awaited<ReturnType<typeof getRecentTracks>>) => {
     for (const t of res.tracks) {
       if (t.nowPlaying || !t.date) continue;
       const d = new Date(t.date * 1000);
@@ -51,7 +41,19 @@ async function computeStats(creds: Credentials, user: string, now: number): Prom
       tracks.add(`${t.artist}—${t.name}`.toLowerCase());
       total++;
     }
-    page++;
+  };
+
+  // Page 1 reveals totalPages; fetch the rest in parallel batches.
+  const first = await fetchPage(1);
+  ingest(first);
+  const totalPages = first.totalPages || 1;
+  const lastPage = Math.min(totalPages, MAX_PAGES);
+  const truncated = totalPages > MAX_PAGES;
+  for (let start = 2; start <= lastPage; start += BATCH_SIZE) {
+    const end = Math.min(start + BATCH_SIZE - 1, lastPage);
+    const batch: Array<ReturnType<typeof fetchPage>> = [];
+    for (let p = start; p <= end; p++) batch.push(fetchPage(p));
+    for (const res of await Promise.all(batch)) ingest(res);
   }
 
   // Streaks over the window (consecutive days with >=1 play).

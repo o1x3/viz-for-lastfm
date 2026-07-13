@@ -96,6 +96,12 @@ const num = (v: unknown): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
+/** Last.fm returns a bare object (not a 1-element array) when a list has a single item. */
+function asArray<T>(v: T | T[] | undefined | null): T[] {
+  if (v == null) return [];
+  return Array.isArray(v) ? v : [v];
+}
+
 // ---------- auth ----------
 
 export function authUrl(apiKey: string, callbackUrl: string): string {
@@ -154,11 +160,11 @@ export async function getTopArtists(
   period: Period,
   limit = 12,
 ): Promise<TopArtist[]> {
-  const data = await call<{ topartists: { artist: Array<Record<string, unknown>> } }>(
+  const data = await call<{ topartists: { artist: Array<Record<string, unknown>> | Record<string, unknown> } }>(
     { method: "user.getTopArtists", api_key: creds.apiKey, user, period, limit: String(limit) },
     { revalidate: 900 },
   );
-  return (data.topartists?.artist ?? []).map((a) => {
+  return asArray(data.topartists?.artist).map((a) => {
     const r = a as { name: string; url: string; playcount: string; mbid?: string; "@attr"?: { rank: string } };
     return {
       name: r.name,
@@ -176,11 +182,11 @@ export async function getTopAlbums(
   period: Period,
   limit = 12,
 ): Promise<TopAlbum[]> {
-  const data = await call<{ topalbums: { album: Array<Record<string, unknown>> } }>(
+  const data = await call<{ topalbums: { album: Array<Record<string, unknown>> | Record<string, unknown> } }>(
     { method: "user.getTopAlbums", api_key: creds.apiKey, user, period, limit: String(limit) },
     { revalidate: 900 },
   );
-  return (data.topalbums?.album ?? []).map((a) => {
+  return asArray(data.topalbums?.album).map((a) => {
     const r = a as {
       name: string;
       url: string;
@@ -206,11 +212,11 @@ export async function getTopTracks(
   period: Period,
   limit = 12,
 ): Promise<TopTrack[]> {
-  const data = await call<{ toptracks: { track: Array<Record<string, unknown>> } }>(
+  const data = await call<{ toptracks: { track: Array<Record<string, unknown>> | Record<string, unknown> } }>(
     { method: "user.getTopTracks", api_key: creds.apiKey, user, period, limit: String(limit) },
     { revalidate: 900 },
   );
-  return (data.toptracks?.track ?? []).map((t) => {
+  return asArray(data.toptracks?.track).map((t) => {
     const r = t as {
       name: string;
       url: string;

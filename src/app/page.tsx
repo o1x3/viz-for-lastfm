@@ -48,7 +48,7 @@ function Micro({
 
 const microLabel =
   "font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground";
-const microLink = `${microLabel} rounded-sm transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4`;
+const microLink = `${microLabel} rounded-sm transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`;
 
 const TRUST_ITEMS = [
   {
@@ -112,7 +112,7 @@ export default async function Home({
               <Micro>N&ordm; 001 &mdash; The front matter</Micro>
               <h1
                 id="hero-heading"
-                className="mt-6 font-display text-[clamp(3.25rem,9vw,7.5rem)] leading-[0.95] font-medium tracking-tight text-balance"
+                className="mt-6 font-display text-[clamp(2.75rem,9vw,7.5rem)] leading-[0.95] font-medium tracking-tight text-balance"
               >
                 Your listening,
                 <br />
@@ -122,7 +122,7 @@ export default async function Home({
               </h1>
             </Reveal>
 
-            <Reveal delay={0.15}>
+            <Reveal delay={0.1}>
               <p className="mt-8 max-w-md leading-relaxed text-muted-foreground">
                 Sleeve reads your Last.fm scrobbles and sets them like liner
                 notes &mdash; the heavy rotation, the deep cuts, the one artist
@@ -132,7 +132,7 @@ export default async function Home({
             </Reveal>
 
             {error && (
-              <Reveal delay={0.2}>
+              <Reveal delay={0.12}>
                 <div
                   role="alert"
                   className="mt-8 max-w-md border-l-2 border-primary bg-primary/10 px-4 py-3"
@@ -146,7 +146,7 @@ export default async function Home({
             )}
 
             {session && (
-              <Reveal delay={0.25}>
+              <Reveal delay={0.15}>
                 <div className="mt-10 flex flex-wrap items-center gap-5">
                   <Button asChild size="lg" className="font-medium">
                     <Link href={`/u/${session.username}`}>
@@ -156,7 +156,7 @@ export default async function Home({
                   <form action="/api/auth/logout" method="POST">
                     <button
                       type="submit"
-                      className={`${microLabel} cursor-pointer rounded-sm underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-4`}
+                      className={`${microLabel} cursor-pointer rounded-sm underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`}
                     >
                       Sign out
                     </button>
@@ -168,8 +168,8 @@ export default async function Home({
 
           {/* record sliding out of its sleeve, bleeding off-grid to the right */}
           <div className="relative lg:col-span-5">
-            <Reveal delay={0.3}>
-              <div className="relative mx-auto max-w-md lg:mx-0 lg:max-w-none lg:translate-x-14">
+            <Reveal delay={0.15}>
+              <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none lg:translate-x-14">
                 {/* the sleeve */}
                 <div className="absolute top-1/2 left-0 z-0 hidden aspect-square w-[82%] -translate-y-1/2 border border-border bg-card/70 sm:block">
                   <span className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
@@ -196,7 +196,7 @@ export default async function Home({
 
         {/* ── Two ways in ──────────────────────────────────────────── */}
         <section aria-labelledby="entry-heading" className="border-t border-border">
-          <Reveal delay={0.4}>
+          <Reveal delay={0.2}>
             <div className="grid gap-x-10 gap-y-10 pt-10 pb-16 lg:grid-cols-12">
               <div className="lg:col-span-3">
                 <Micro>Drop the needle</Micro>
@@ -211,7 +211,7 @@ export default async function Home({
                 ) : (
                   <details className="group mt-5 max-w-xs">
                     <summary
-                      className={`${microLabel} cursor-pointer list-none rounded-sm transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4`}
+                      className={`${microLabel} cursor-pointer list-none rounded-sm transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`}
                     >
                       Need an API key?{" "}
                       <span className="text-primary group-open:hidden">+</span>
@@ -225,7 +225,7 @@ export default async function Home({
                         href="https://www.last.fm/api/account/create"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-sm text-foreground underline decoration-primary/60 underline-offset-4 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2"
+                        className="rounded-sm text-foreground underline decoration-primary/60 underline-offset-4 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                       >
                         last.fm/api/account/create
                       </a>
@@ -358,7 +358,7 @@ export default async function Home({
 
         {/* ── Trust strip ──────────────────────────────────────────── */}
         <section aria-label="Privacy and trust" className="border-t border-border">
-          <Reveal delay={0.5}>
+          <Reveal delay={0.25}>
             <div className="grid gap-x-10 gap-y-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
               {TRUST_ITEMS.map((item) => (
                 <div key={item.n}>

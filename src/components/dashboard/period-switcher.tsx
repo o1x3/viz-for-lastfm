@@ -36,7 +36,7 @@ export function PeriodSwitcher({ current }: { current: Period }) {
             onClick={() => select(p.value)}
             aria-pressed={active}
             className={cn(
-              "border-b pb-1 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "border-b pb-1 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
               active
                 ? "border-primary text-foreground"
                 : "border-transparent text-muted-foreground hover:text-foreground",

@@ -1,12 +1,7 @@
 const nf = new Intl.NumberFormat("en-US");
-const nfCompact = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
 
 export function formatNumber(n: number): string {
   return nf.format(n);
-}
-
-export function formatCompact(n: number): string {
-  return nfCompact.format(n);
 }
 
 export function formatDate(unix: number): string {

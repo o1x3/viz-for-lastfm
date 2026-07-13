@@ -16,7 +16,7 @@ export function LovedTracks({ tracks }: { tracks: LovedTrack[] }) {
           Loved
         </h2>
         {tracks.length > 0 && (
-          <span className="font-mono text-[11px] tnum text-muted-foreground/60">
+          <span className="font-mono text-[11px] tnum text-muted-foreground">
             {String(tracks.length).padStart(2, "0")}
           </span>
         )}
@@ -34,7 +34,7 @@ export function LovedTracks({ tracks }: { tracks: LovedTrack[] }) {
                 href={track.url}
                 target="_blank"
                 rel="noopener"
-                className={`group flex items-baseline gap-3 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                className={`group flex items-baseline gap-3 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                   i > 0 ? "border-t border-border" : ""
                 }`}
               >
@@ -50,7 +50,7 @@ export function LovedTracks({ tracks }: { tracks: LovedTrack[] }) {
                   </span>
                   <span className="text-muted-foreground"> — {track.artist}</span>
                 </span>
-                <span className="ml-auto shrink-0 font-mono text-[11px] tnum text-muted-foreground/70">
+                <span className="ml-auto shrink-0 font-mono text-[11px] tnum text-muted-foreground">
                   {formatDate(track.date)}
                 </span>
               </a>
