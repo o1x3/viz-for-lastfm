@@ -2,12 +2,9 @@ import Link from "next/link";
 import { envCredentials } from "@/lib/lastfm/client";
 import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  "missing-credentials": "The server has no Last.fm API key configured.",
-  "user-not-found": "That Last.fm user doesn't exist.",
-  "bad-api-key": "Last.fm rejected the API key.",
+  "missing-credentials": "This deployment is missing its Last.fm API keys.",
   "auth-denied": "Authorization was declined on Last.fm. Nothing was stored.",
   "session-expired": "Your session expired. Sign in again.",
   "auth-failed": "Signing in with Last.fm failed. Try again.",
@@ -30,7 +27,7 @@ export default async function Home({
   const errorParam = typeof params.error === "string" ? params.error : undefined;
   const error = errorMessage(errorParam);
   const session = await getSession();
-  const hasEnvKey = !!envCredentials();
+  const configured = !!envCredentials()?.apiSecret;
 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center px-6">
@@ -65,39 +62,16 @@ export default async function Home({
               </button>
             </form>
           </div>
-        ) : (
-          <form action="/api/auth/login" method="POST" className="flex w-full flex-col gap-3">
-            {!hasEnvKey && (
-              <>
-                <label className="sr-only" htmlFor="apiKey">
-                  Last.fm API key
-                </label>
-                <Input
-                  id="apiKey"
-                  name="apiKey"
-                  required
-                  autoComplete="off"
-                  placeholder="Last.fm API key"
-                  className="font-mono"
-                />
-                <label className="sr-only" htmlFor="apiSecret">
-                  Shared secret
-                </label>
-                <Input
-                  id="apiSecret"
-                  name="apiSecret"
-                  type="password"
-                  required
-                  autoComplete="off"
-                  placeholder="Shared secret"
-                  className="font-mono"
-                />
-              </>
-            )}
+        ) : configured ? (
+          <form action="/api/auth/login" method="POST" className="w-full">
             <Button type="submit" size="lg" className="w-full">
               Sign in with Last.fm
             </Button>
           </form>
+        ) : (
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            Set LASTFM_API_KEY and LASTFM_SHARED_SECRET to enable sign-in
+          </p>
         )}
       </div>
 

@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
-import { getRecentTracks } from "@/lib/lastfm/client";
+import { envCredentials, getRecentTracks } from "@/lib/lastfm/client";
 import { getSession } from "@/lib/session";
 
-/** Polled by the client for the live "now spinning" indicator. */
+/** Polled by the client for the live now-playing indicator. */
 export async function GET() {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const creds = envCredentials();
+  if (!session || !creds) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   try {
-    const page = await getRecentTracks(session, session.username, {
+    const page = await getRecentTracks(creds, session.username, {
       limit: 1,
       revalidate: 30,
     });

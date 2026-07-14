@@ -46,10 +46,10 @@ const ERROR_COPY: Record<
     cta: "Back home",
   },
   "no-credentials": {
-    kicker: "not signed in",
-    title: "Sign in with Last.fm first.",
-    body: "Nothing is stored server-side, so viz needs you to sign in before it can load listening data.",
-    cta: "Go sign in",
+    kicker: "not configured",
+    title: "This deployment isn't set up yet.",
+    body: "The server is missing its Last.fm API keys (LASTFM_API_KEY and LASTFM_SHARED_SECRET).",
+    cta: "Back home",
   },
   "rate-limited": {
     kicker: "rate limited",

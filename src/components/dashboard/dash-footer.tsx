@@ -11,7 +11,7 @@ export function DashFooter({ isDemo }: { isDemo: boolean }) {
             href="/"
             className="underline underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            connect your own account
+            sign in to see yours
           </Link>
         </p>
       )}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { envCredentials, getSession as lastfmGetSession, LastfmError } from "@/lib/lastfm/client";
-import { clearPendingAuth, getPendingAuth, setSession } from "@/lib/session";
+import { setSession } from "@/lib/session";
 
 export async function GET(req: NextRequest) {
   const token = req.nextUrl.searchParams.get("token");
@@ -9,22 +9,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/?error=auth-denied", origin));
   }
 
-  const pending = await getPendingAuth();
-  const apiKey = pending?.apiKey ?? envCredentials()?.apiKey;
-  const apiSecret = pending?.apiSecret ?? envCredentials()?.apiSecret;
-  if (!apiKey || !apiSecret) {
-    return NextResponse.redirect(new URL("/?error=session-expired", origin));
+  const creds = envCredentials();
+  if (!creds?.apiKey || !creds.apiSecret) {
+    return NextResponse.redirect(new URL("/?error=missing-credentials", origin));
   }
 
   try {
-    const session = await lastfmGetSession({ apiKey, apiSecret }, token);
-    await setSession({
-      username: session.name,
-      apiKey,
-      apiSecret,
-      sessionKey: session.key,
-    });
-    await clearPendingAuth();
+    const session = await lastfmGetSession(
+      { apiKey: creds.apiKey, apiSecret: creds.apiSecret },
+      token,
+    );
+    await setSession({ username: session.name, sessionKey: session.key });
     return NextResponse.redirect(new URL(`/u/${encodeURIComponent(session.name)}`, origin));
   } catch (e) {
     const msg = e instanceof LastfmError ? `lastfm-${e.code}` : "auth-failed";

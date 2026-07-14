@@ -45,16 +45,15 @@ type CredContext =
 
 /**
  * Resolve demo-vs-real credentials once per request (React cache) so every
- * granular fetcher agrees on the mode. Username "demo" without a session
- * always serves the baked-in demo dataset.
+ * granular fetcher agrees on the mode. API credentials always come from
+ * server env vars; the session only identifies the signed-in user.
+ * Username "demo" without a session serves the baked-in demo dataset.
  */
 const resolveCreds = cache(async (username: string): Promise<CredContext> => {
   const session = await getSession();
   if (username.toLowerCase() === DEMO_USERNAME && !session) return { mode: "demo" };
 
-  const creds: Credentials | null = session
-    ? { apiKey: session.apiKey, apiSecret: session.apiSecret, sessionKey: session.sessionKey }
-    : envCredentials();
+  const creds: Credentials | null = envCredentials();
   if (!creds) return { mode: "missing" };
 
   return {
