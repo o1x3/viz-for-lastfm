@@ -40,27 +40,27 @@ const ERROR_COPY: Record<
   { kicker: string; title: string; body: string; cta: string }
 > = {
   "user-not-found": {
-    kicker: "no record found",
-    title: "This listener does not exist.",
-    body: "We dug through the crates twice — Last.fm has no one filed under that name.",
-    cta: "Back to the front sleeve",
+    kicker: "not found",
+    title: "This user does not exist.",
+    body: "Last.fm has no account under that name. Check the spelling and try again.",
+    cta: "Back home",
   },
   "no-credentials": {
-    kicker: "no key on file",
-    title: "Connect your Last.fm first.",
-    body: "viz is bring-your-own-API-key: nothing is stored server-side, so we need your key before we can read the grooves.",
-    cta: "Go home and connect",
+    kicker: "not signed in",
+    title: "Sign in with Last.fm first.",
+    body: "Nothing is stored server-side, so viz needs you to sign in before it can load listening data.",
+    cta: "Go sign in",
   },
   "rate-limited": {
-    kicker: "too many spins",
-    title: "The needle needs a rest.",
-    body: "Last.fm is rate-limiting requests right now. Give it a minute, then drop the needle again.",
+    kicker: "rate limited",
+    title: "Too many requests.",
+    body: "Last.fm is rate-limiting requests right now. Give it a minute and try again.",
     cta: "Back home",
   },
   upstream: {
-    kicker: "skipped a groove",
-    title: "Last.fm missed a beat.",
-    body: "Something went wrong upstream while fetching this listener's records. It is usually brief — try again shortly.",
+    kicker: "upstream error",
+    title: "Last.fm didn't respond.",
+    body: "Something went wrong fetching this user's data. It is usually brief — try again shortly.",
     cta: "Back home",
   },
 };

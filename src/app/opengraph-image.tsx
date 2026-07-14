@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "viz — liner notes for your Last.fm";
+export const alt = "viz — your Last.fm, visualized";
 
 const BG = "#12100d";
 const CREAM = "#f0ebdf";
@@ -135,7 +135,7 @@ export default async function OpengraphImage() {
                 color: MUTED,
               }}
             >
-              viz — liner notes for your Last.fm
+              viz — your Last.fm, visualized
             </div>
           </div>
           <div
@@ -148,7 +148,7 @@ export default async function OpengraphImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            Your listening, pressed &amp; sleeved.
+            Your Last.fm, visualized.
           </div>
           <div
             style={{

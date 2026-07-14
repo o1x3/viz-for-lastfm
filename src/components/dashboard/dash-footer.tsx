@@ -27,7 +27,7 @@ export function DashFooter({ isDemo }: { isDemo: boolean }) {
             Last.fm
           </a>
         </p>
-        <p>a nonprofit fan project · bring your own api key · nothing stored server-side</p>
+        <p>a nonprofit fan project · nothing stored server-side</p>
       </div>
     </footer>
   );

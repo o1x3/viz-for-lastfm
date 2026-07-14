@@ -46,7 +46,7 @@ export function DashHeader({
         <div className="flex items-center gap-4">
           {isDemo && (
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              demo pressing
+              demo data
             </span>
           )}
           {isOwner && (
@@ -85,7 +85,7 @@ export function DashHeader({
             )}
             <div className="min-w-0">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                the listening notes of
+                listening stats for
               </p>
               <h1 className="truncate font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">
                 {info.name}

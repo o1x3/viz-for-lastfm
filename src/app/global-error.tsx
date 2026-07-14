@@ -53,7 +53,7 @@ export default function GlobalError({
             fontWeight: 500,
           }}
         >
-          The needle skipped.
+          Something went wrong.
         </h1>
         <p
           style={{
@@ -64,8 +64,7 @@ export default function GlobalError({
             lineHeight: 1.6,
           }}
         >
-          Something went wrong deep in the grooves. Set the tonearm back down
-          and try again.
+          An unexpected error occurred. It is usually brief — try again.
         </p>
         {error?.digest ? (
           <p
@@ -97,7 +96,7 @@ export default function GlobalError({
             cursor: "pointer",
           }}
         >
-          Drop the needle again
+          Try again
         </button>
       </body>
     </html>

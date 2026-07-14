@@ -1,8 +1,8 @@
 # viz
 
-**Liner notes for your listening.** A beautiful, privacy-first dashboard for your [Last.fm](https://www.last.fm) scrobbles.
+**Your Last.fm, visualized.** A privacy-first dashboard for your [Last.fm](https://www.last.fm) scrobbles.
 
-Bring your own Last.fm API key, log in with your Last.fm account (or just look up any username), and see your listening rendered like the liner notes of a record you love — top artists, albums and tracks, a radial listening clock, streaks, and a live "now spinning" bar.
+Sign in with your Last.fm account and see your listening properly: top artists, albums and tracks, a radial listening clock, streaks, and a live now-playing bar. Any profile is viewable at `/u/<username>` once the server has an API key.
 
 ## Privacy model
 
