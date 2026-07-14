@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Sleeve — a listening record";
+export const alt = "viz — a listening record";
 
 const BG = "#12100d";
 const CREAM = "#f0ebdf";
@@ -143,7 +143,7 @@ export default async function OpengraphImage({
                 color: MUTED,
               }}
             >
-              Sleeve — liner notes for your Last.fm
+              viz — liner notes for your Last.fm
             </div>
           </div>
           <div

@@ -1,4 +1,4 @@
-# Sleeve
+# viz
 
 **Liner notes for your listening.** A beautiful, privacy-first dashboard for your [Last.fm](https://www.last.fm) scrobbles.
 

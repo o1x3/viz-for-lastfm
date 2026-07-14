@@ -24,21 +24,21 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
   title: {
-    default: "Sleeve — liner notes for your listening",
-    template: "%s · Sleeve",
+    default: "viz — liner notes for your listening",
+    template: "%s · viz",
   },
   description:
     "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved — bring your own API key; nothing is stored.",
   openGraph: {
     type: "website",
-    siteName: "Sleeve",
-    title: "Sleeve — liner notes for your listening",
+    siteName: "viz",
+    title: "viz — liner notes for your listening",
     description:
       "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sleeve — liner notes for your listening",
+    title: "viz — liner notes for your listening",
     description:
       "A liner-notes dashboard for your Last.fm scrobbles. Your listening, pressed & sleeved.",
   },

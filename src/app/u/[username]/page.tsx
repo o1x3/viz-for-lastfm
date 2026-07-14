@@ -27,7 +27,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { username } = await params;
-  return { title: `${decodeURIComponent(username)} · Sleeve` };
+  return { title: `${decodeURIComponent(username)} · viz` };
 }
 
 function parsePeriod(raw: string | string[] | undefined): Period {
@@ -48,7 +48,7 @@ const ERROR_COPY: Record<
   "no-credentials": {
     kicker: "no key on file",
     title: "Connect your Last.fm first.",
-    body: "Sleeve is bring-your-own-API-key: nothing is stored server-side, so we need your key before we can read the grooves.",
+    body: "viz is bring-your-own-API-key: nothing is stored server-side, so we need your key before we can read the grooves.",
     cta: "Go home and connect",
   },
   "rate-limited": {

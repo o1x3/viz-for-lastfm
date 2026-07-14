@@ -91,7 +91,7 @@ export default async function Home({
         <header className="flex items-baseline justify-between gap-6 pt-8 pb-6">
           <div className="flex items-baseline gap-5">
             <span className="font-display text-2xl font-semibold tracking-tight">
-              Sleeve
+              viz
             </span>
             <Micro className="hidden sm:block">
               A record of your records
@@ -124,7 +124,7 @@ export default async function Home({
 
             <Reveal delay={0.1}>
               <p className="mt-8 max-w-md leading-relaxed text-muted-foreground">
-                Sleeve reads your Last.fm scrobbles and sets them like liner
+                viz reads your Last.fm scrobbles and sets them like liner
                 notes &mdash; the heavy rotation, the deep cuts, the one artist
                 you couldn&rsquo;t put down. Bring your own API key. This
                 server stores nothing.
@@ -380,7 +380,7 @@ export default async function Home({
       <footer className="mx-auto w-full max-w-6xl px-6 sm:px-10">
         <div className="flex flex-wrap items-baseline justify-between gap-4 border-t border-border py-8">
           <p className="font-display text-lg italic">
-            Sleeve &mdash; liner notes for your listening.
+            viz &mdash; liner notes for your listening.
           </p>
           <Micro>Built for the love of scrobbling</Micro>
         </div>

@@ -41,7 +41,7 @@ export function DashHeader({
           href="/"
           className="font-display text-xl italic tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          Sleeve
+          viz
         </Link>
         <div className="flex items-center gap-4">
           {isDemo && (

@@ -3,7 +3,7 @@ import { formatNumber } from "@/lib/format";
 import { ArtTile } from "@/components/art-tile";
 
 /**
- * Sleeve-grid of album art. Rank 1 spans 2x2 for editorial asymmetry;
+ * Sleeve-style grid of album art. Rank 1 spans 2x2 for editorial asymmetry;
  * rank badges sit like stickers on the corner of each sleeve.
  */
 export function TopAlbums({ albums }: { albums: TopAlbum[] }) {

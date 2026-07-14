@@ -51,7 +51,7 @@ export function Vinyl({ className = "" }: { className?: string }) {
               style={{ fontFamily: "var(--font-spline-mono), monospace" }}
             >
               <textPath href="#vinyl-label-arc">
-                SLEEVE · LONG PLAY · 33⅓ RPM · SIDE A · STEREO ·
+                VIZ · LONG PLAY · 33⅓ RPM · SIDE A · STEREO ·
               </textPath>
             </text>
             <circle
