@@ -2,6 +2,7 @@ import Link from "next/link";
 import { envCredentials } from "@/lib/lastfm/client";
 import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
+import { VizMark } from "@/components/viz-mark";
 
 const ERROR_MESSAGES: Record<string, string> = {
   "missing-credentials": "This deployment is missing its Last.fm API keys.",
@@ -32,8 +33,9 @@ export default async function Home({
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center px-6">
       <div className="flex w-full max-w-sm flex-col items-center gap-8 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          viz<span className="text-primary">.</span>
+        <h1 className="flex items-center gap-3 text-4xl font-semibold tracking-tight">
+          <VizMark size={40} />
+          viz
         </h1>
         <p className="text-sm text-muted-foreground">Your Last.fm, visualized.</p>
 
