@@ -1,13 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- plate -->
-  <rect width="32" height="32" rx="7" fill="#12100d" />
-  <!-- disc -->
-  <circle cx="16" cy="16" r="13" fill="#211c17" />
-  <!-- grooves -->
-  <circle cx="16" cy="16" r="10.5" fill="none" stroke="#f0ebdf" stroke-width="0.9" opacity="0.5" />
-  <circle cx="16" cy="16" r="7.5" fill="none" stroke="#f0ebdf" stroke-width="0.9" opacity="0.35" />
-  <!-- label -->
-  <circle cx="16" cy="16" r="4.6" fill="#d5310a" />
-  <!-- spindle -->
-  <circle cx="16" cy="16" r="1.2" fill="#f0ebdf" />
+  <rect width="32" height="32" rx="7" fill="#171717" />
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="#ffffff" stroke-opacity="0.08" />
+  <!-- equalizer bars -->
+  <rect x="7" y="17" width="4" height="8" rx="2" fill="#e5484d" opacity="0.55" />
+  <rect x="14" y="8" width="4" height="17" rx="2" fill="#e5484d" />
+  <rect x="21" y="13" width="4" height="12" rx="2" fill="#e5484d" opacity="0.75" />
 </svg>

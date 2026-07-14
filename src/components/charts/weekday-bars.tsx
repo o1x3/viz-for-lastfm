@@ -1,12 +1,12 @@
 import { formatNumber } from "@/lib/format";
 
 /**
- * Editorial horizontal weekday bars, Monday first. Day letters in mono on the
- * left, a cream hairline track, a thin cream bar (peak day in crimson), and a
+ * Horizontal weekday bars, Monday first. Day labels in mono on the left,
+ * a faint rounded track, a light-gray fill (peak day in red), and a
  * right-aligned tabular count. No gridlines, no axes. Server-safe SVG.
  */
 
-const DAY_ABBR = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+const DAY_ABBR = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const DAY_NAME = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 // geometry
@@ -16,7 +16,7 @@ const H = ROW_H * 7;
 const TRACK_X0 = 36;
 const TRACK_X1 = 396;
 const COUNT_X = W;
-const BAR_H = 7;
+const BAR_H = 6;
 
 export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
   // incoming index 0 = Sunday; display Monday-first
@@ -50,20 +50,20 @@ export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
                 y={cy}
                 dominantBaseline="central"
                 fill="var(--muted-foreground)"
-                fontFamily="var(--font-spline-mono), monospace"
+                fontFamily="var(--font-geist-mono), monospace"
                 fontSize={10}
-                letterSpacing="0.15em"
               >
                 {DAY_ABBR[i]}
               </text>
-              {/* hairline track */}
-              <line
-                x1={TRACK_X0}
-                y1={cy}
-                x2={TRACK_X1}
-                y2={cy}
-                stroke="var(--border)"
-                strokeWidth={1}
+              {/* track */}
+              <rect
+                x={TRACK_X0}
+                y={cy - BAR_H / 2}
+                width={TRACK_X1 - TRACK_X0}
+                height={BAR_H}
+                rx={BAR_H / 2}
+                fill="var(--foreground)"
+                fillOpacity={0.05}
               />
               {/* bar */}
               {barW > 0 && (
@@ -72,9 +72,8 @@ export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
                   y={cy - BAR_H / 2}
                   width={Number(barW.toFixed(2))}
                   height={BAR_H}
-                  rx={1}
-                  fill={isPeak ? "var(--crimson)" : "var(--cream)"}
-                  fillOpacity={isPeak ? 0.95 : 0.8}
+                  rx={BAR_H / 2}
+                  fill={isPeak ? "var(--chart-1)" : "var(--chart-2)"}
                 />
               )}
               <text
@@ -82,8 +81,8 @@ export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
                 y={cy}
                 textAnchor="end"
                 dominantBaseline="central"
-                fill={isPeak ? "var(--cream)" : "var(--muted-foreground)"}
-                fontFamily="var(--font-spline-mono), monospace"
+                fill={isPeak ? "var(--foreground)" : "var(--muted-foreground)"}
+                fontFamily="var(--font-geist-mono), monospace"
                 fontSize={11}
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
@@ -94,11 +93,11 @@ export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
         })}
       </svg>
 
-      <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground tnum">
+      <figcaption className="mt-3 text-xs text-muted-foreground">
         {total > 0 ? (
           <>
-            Peak day <span className="text-foreground">{DAY_NAME[peak]}</span> ·{" "}
-            {formatNumber(max)} plays
+            Peak day <span className="text-foreground">{DAY_NAME[peak]}</span>{" "}
+            · <span className="font-mono tnum">{formatNumber(max)}</span> plays
           </>
         ) : (
           <>No plays this period</>

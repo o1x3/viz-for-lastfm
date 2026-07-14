@@ -2,26 +2,19 @@ import type { TopArtist } from "@/lib/lastfm/types";
 import { formatNumber } from "@/lib/format";
 
 /**
- * Festival-poster typographic chart. Artists have no artwork (Last.fm API
- * limitation), so the type IS the visual: Fraunces names sized by rank tier,
- * a proportional hairline bar under each name, tabular playcounts on the
- * right. Rank 1 carries the crimson.
+ * Compact ranked list of artists. Rank in mono, artist name, a thin
+ * horizontal bar proportional to plays relative to rank 1, and a tabular
+ * playcount on the right. Rank 1 carries the red accent.
  */
-
-/** Fluid type tiers — clamp() keeps rank-1 names from overflowing at 375px. */
-function nameTier(rank: number): string {
-  if (rank === 1) return "text-[clamp(2rem,8vw,4.5rem)] font-semibold";
-  if (rank <= 3) return "text-[clamp(1.5rem,6vw,3rem)] font-medium";
-  if (rank <= 6) return "text-[clamp(1.25rem,4.5vw,1.875rem)] font-medium";
-  return "text-[clamp(1.125rem,3.5vw,1.5rem)] font-normal";
-}
-
 export function TopArtists({ artists }: { artists: TopArtist[] }) {
   if (artists.length === 0) {
     return (
-      <section aria-labelledby="top-artists-heading">
+      <section
+        aria-labelledby="top-artists-heading"
+        className="rounded-lg border border-border bg-card p-5"
+      >
         <SectionHeader count={0} />
-        <p className="font-mono text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           No artists in this period.
         </p>
       </section>
@@ -31,12 +24,14 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
   const max = Math.max(...artists.map((a) => a.playcount), 1);
 
   return (
-    <section aria-labelledby="top-artists-heading">
+    <section
+      aria-labelledby="top-artists-heading"
+      className="rounded-lg border border-border bg-card p-5"
+    >
       <SectionHeader count={artists.length} />
-      <ol className="flex flex-col">
+      <ol className="flex flex-col divide-y divide-border">
         {artists.map((artist) => {
           const first = artist.rank === 1;
-          const top3 = artist.rank <= 3;
           const pct = Math.max((artist.playcount / max) * 100, 1.5);
           return (
             <li key={`${artist.rank}-${artist.name}`}>
@@ -44,48 +39,36 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
                 href={artist.url}
                 target="_blank"
                 rel="noopener"
-                className="group block py-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                className="group -mx-2 flex items-center gap-3 rounded-md px-2 py-2.5 transition-colors duration-150 hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
-                <div className="flex items-baseline gap-4 sm:gap-5">
-                  <span
-                    className={`w-8 shrink-0 text-right font-mono text-xs tnum ${
-                      first ? "text-primary" : "text-muted-foreground"
-                    }`}
-                    aria-hidden="true"
-                  >
-                    {String(artist.rank).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={`min-w-0 break-words font-display leading-[1.05] tracking-tight transition-colors duration-200 ease-out ${nameTier(
-                      artist.rank
-                    )} ${
-                      first
-                        ? "text-primary"
-                        : "text-foreground group-hover:text-primary"
-                    }`}
-                  >
+                <span
+                  className={`w-6 shrink-0 text-right font-mono text-xs tnum ${
+                    first ? "text-primary" : "text-muted-foreground"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {artist.rank}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-medium text-foreground">
                     {artist.name}
                   </span>
-                  <span className="ml-auto shrink-0 whitespace-nowrap font-mono text-xs tnum text-muted-foreground">
-                    {formatNumber(artist.playcount)}
-                    <span> plays</span>
+                  <span
+                    className="mt-1.5 block h-1 w-full overflow-hidden rounded-full bg-white/10"
+                    role="presentation"
+                  >
+                    <span
+                      className={`block h-full rounded-full ${
+                        first ? "bg-primary" : "bg-chart-2"
+                      }`}
+                      style={{ width: `${pct}%` }}
+                    />
                   </span>
-                </div>
-                <div
-                  className="relative mt-2 ml-12 h-px bg-border sm:ml-13"
-                  role="presentation"
-                >
-                  <div
-                    className={`absolute inset-y-0 left-0 transition-colors duration-200 ${
-                      first
-                        ? "bg-primary"
-                        : top3
-                          ? "bg-foreground/40 group-hover:bg-primary/70"
-                          : "bg-foreground/25 group-hover:bg-primary/70"
-                    }`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
+                </span>
+                <span className="shrink-0 whitespace-nowrap font-mono text-xs tnum text-muted-foreground">
+                  {formatNumber(artist.playcount)}
+                  <span> plays</span>
+                </span>
               </a>
             </li>
           );
@@ -97,16 +80,16 @@ export function TopArtists({ artists }: { artists: TopArtist[] }) {
 
 function SectionHeader({ count }: { count: number }) {
   return (
-    <header className="mb-8 flex items-baseline justify-between border-t border-border pt-3">
+    <header className="mb-3 flex items-baseline justify-between">
       <h2
         id="top-artists-heading"
-        className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+        className="text-sm font-medium text-foreground"
       >
-        Top Artists
+        Top artists
       </h2>
       {count > 0 && (
-        <span className="font-mono text-[11px] tnum text-muted-foreground">
-          {String(count).padStart(2, "0")}
+        <span className="font-mono text-xs tnum text-muted-foreground">
+          {count}
         </span>
       )}
     </header>

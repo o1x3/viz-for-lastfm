@@ -32,15 +32,15 @@ export default async function Home({
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center px-6">
       <div className="flex w-full max-w-sm flex-col items-center gap-8 text-center">
-        <h1 className="font-display text-6xl italic tracking-tight">
+        <h1 className="text-4xl font-semibold tracking-tight">
           viz<span className="text-primary">.</span>
         </h1>
-        <p className="text-muted-foreground">Your Last.fm, visualized.</p>
+        <p className="text-sm text-muted-foreground">Your Last.fm, visualized.</p>
 
         {error && (
           <p
             role="alert"
-            className="w-full border-l-2 border-primary py-1 pl-4 text-left text-sm text-foreground"
+            className="w-full rounded-md border border-destructive/40 bg-destructive/10 p-3 text-left text-sm text-foreground"
           >
             {error}
           </p>
@@ -56,7 +56,7 @@ export default async function Home({
             <form action="/api/auth/logout" method="POST">
               <button
                 type="submit"
-                className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-primary"
+                className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground"
               >
                 Sign out
               </button>
@@ -69,14 +69,16 @@ export default async function Home({
             </Button>
           </form>
         ) : (
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            Set LASTFM_API_KEY and LASTFM_SHARED_SECRET to enable sign-in
+          <p className="text-xs text-muted-foreground">
+            Set <code className="font-mono">LASTFM_API_KEY</code> and{" "}
+            <code className="font-mono">LASTFM_SHARED_SECRET</code> to enable
+            sign-in
           </p>
         )}
       </div>
 
       <footer className="absolute bottom-6 px-6 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Nothing stored server-side · Not affiliated with Last.fm
         </p>
       </footer>

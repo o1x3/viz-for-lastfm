@@ -40,25 +40,25 @@ const ERROR_COPY: Record<
   { kicker: string; title: string; body: string; cta: string }
 > = {
   "user-not-found": {
-    kicker: "not found",
+    kicker: "Not found",
     title: "This user does not exist.",
     body: "Last.fm has no account under that name. Check the spelling and try again.",
     cta: "Back home",
   },
   "no-credentials": {
-    kicker: "not configured",
+    kicker: "Not configured",
     title: "This deployment isn't set up yet.",
     body: "The server is missing its Last.fm API keys (LASTFM_API_KEY and LASTFM_SHARED_SECRET).",
     cta: "Back home",
   },
   "rate-limited": {
-    kicker: "rate limited",
+    kicker: "Rate limited",
     title: "Too many requests.",
     body: "Last.fm is rate-limiting requests right now. Give it a minute and try again.",
     cta: "Back home",
   },
   upstream: {
-    kicker: "upstream error",
+    kicker: "Upstream error",
     title: "Last.fm didn't respond.",
     body: "Something went wrong fetching this user's data. It is usually brief — try again shortly.",
     cta: "Back home",
@@ -75,13 +75,11 @@ function ErrorState({
   const copy = ERROR_COPY[code];
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-primary">
-        {copy.kicker}
-      </p>
-      <h1 className="mt-6 max-w-2xl text-balance font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <p className="text-xs text-muted-foreground">{copy.kicker}</p>
+      <h1 className="mt-4 max-w-2xl text-balance text-2xl font-semibold tracking-tight md:text-3xl">
         {copy.title}
       </h1>
-      <p className="mt-6 max-w-md text-balance text-sm leading-relaxed text-muted-foreground">
+      <p className="mt-4 max-w-md text-balance text-sm leading-relaxed text-muted-foreground">
         {code === "user-not-found" ? (
           <>
             <span className="font-mono text-foreground">“{username}”</span> — {copy.body}
@@ -92,7 +90,7 @@ function ErrorState({
       </p>
       <Link
         href="/"
-        className="mt-10 border-b border-primary pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="mt-8 rounded-md bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors duration-150 hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {copy.cta}
       </Link>
@@ -101,25 +99,25 @@ function ErrorState({
 }
 
 function SectionHeading({
-  kicker,
   title,
+  description,
   id,
   children,
 }: {
-  kicker: string;
   title: string;
+  description?: string;
   id: string;
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-4 border-t border-border pt-4 md:flex-row md:items-end md:justify-between">
+    <div className="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          {kicker}
-        </p>
-        <h2 id={id} className="mt-1 font-display text-3xl tracking-tight md:text-4xl">
+        <h2 id={id} className="text-sm font-medium text-foreground">
           {title}
         </h2>
+        {description && (
+          <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
+        )}
       </div>
       {children}
     </div>
@@ -145,23 +143,25 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
 
       <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
 
-      <div className="mt-10">
-        <Suspense fallback={<StatTilesSkeleton />}>
-          <StatsBand username={username} />
-        </Suspense>
-      </div>
+      <Suspense fallback={<StatTilesSkeleton />}>
+        <StatsBand username={username} />
+      </Suspense>
 
       {/* Rhythms — when the listening happens */}
-      <section aria-labelledby="rhythms-heading" className="mt-16">
-        <SectionHeading kicker="the last 90 days" title="Rhythms" id="rhythms-heading" />
+      <section aria-labelledby="rhythms-heading" className="mt-10">
+        <SectionHeading title="Rhythms" description="Last 90 days" id="rhythms-heading" />
         <Suspense fallback={<RhythmsSkeleton />}>
           <RhythmsBody username={username} />
         </Suspense>
       </section>
 
-      {/* On rotation — the charts */}
-      <section aria-labelledby="rotation-heading" className="mt-16">
-        <SectionHeading kicker="heavy rotation" title="On rotation" id="rotation-heading">
+      {/* Top — the charts */}
+      <section aria-labelledby="rotation-heading" className="mt-10">
+        <SectionHeading
+          title="Top"
+          description="Most played artists, albums, and tracks"
+          id="rotation-heading"
+        >
           <PeriodSwitcher current={period} />
         </SectionHeading>
         <Suspense fallback={<RotationSkeleton />}>
@@ -169,8 +169,8 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
         </Suspense>
       </section>
 
-      {/* The log + loved */}
-      <div className="mt-16 grid gap-12 lg:grid-cols-2">
+      {/* Recent + loved */}
+      <div className="mt-10 grid gap-3 lg:grid-cols-2">
         <Suspense
           fallback={
             <>

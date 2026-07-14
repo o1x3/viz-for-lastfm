@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { PERIODS, type Period } from "@/lib/lastfm/types";
 import { cn } from "@/lib/utils";
 
-/** Inline segmented text control — mono microcaps, active gets a crimson underline. */
+/** Segmented control — active segment gets a raised background. */
 export function PeriodSwitcher({ current }: { current: Period }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -23,7 +23,7 @@ export function PeriodSwitcher({ current }: { current: Period }) {
       role="group"
       aria-label="Time period"
       className={cn(
-        "flex flex-wrap items-baseline gap-x-5 gap-y-2 transition-opacity",
+        "inline-flex flex-wrap items-center gap-0.5 rounded-md bg-secondary p-0.5 transition-opacity",
         isPending && "opacity-50",
       )}
     >
@@ -36,10 +36,10 @@ export function PeriodSwitcher({ current }: { current: Period }) {
             onClick={() => select(p.value)}
             aria-pressed={active}
             className={cn(
-              "border-b pb-1 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+              "rounded px-2.5 py-1 text-xs font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               active
-                ? "border-primary text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground",
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {p.label}

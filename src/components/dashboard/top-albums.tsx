@@ -3,85 +3,70 @@ import { formatNumber } from "@/lib/format";
 import { ArtTile } from "@/components/art-tile";
 
 /**
- * Sleeve-style grid of album art. Rank 1 spans 2x2 for editorial asymmetry;
- * rank badges sit like stickers on the corner of each sleeve.
+ * Uniform grid of album art tiles. Rank is a small muted prefix in the
+ * caption line; no hero spans, no badges.
  */
 export function TopAlbums({ albums }: { albums: TopAlbum[] }) {
   return (
-    <section aria-labelledby="top-albums-heading">
-      <header className="mb-6 flex items-baseline justify-between border-t border-border pt-3">
+    <section
+      aria-labelledby="top-albums-heading"
+      className="rounded-lg border border-border bg-card p-5"
+    >
+      <header className="mb-4 flex items-baseline justify-between">
         <h2
           id="top-albums-heading"
-          className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+          className="text-sm font-medium text-foreground"
         >
-          Top Albums
+          Top albums
         </h2>
         {albums.length > 0 && (
-          <span className="font-mono text-[11px] tnum text-muted-foreground">
-            {String(albums.length).padStart(2, "0")}
+          <span className="font-mono text-xs tnum text-muted-foreground">
+            {albums.length}
           </span>
         )}
       </header>
 
       {albums.length === 0 ? (
-        <p className="font-mono text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           No albums in this period.
         </p>
       ) : (
-        <ol className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
-          {albums.map((album) => {
-            const first = album.rank === 1;
-            return (
-              <li
-                key={`${album.rank}-${album.artist}-${album.name}`}
-                className={first ? "col-span-2 row-span-2" : ""}
+        <ol className="grid grid-cols-3 gap-x-4 gap-y-5 sm:grid-cols-4 lg:grid-cols-6">
+          {albums.map((album) => (
+            <li key={`${album.rank}-${album.artist}-${album.name}`}>
+              <a
+                href={album.url}
+                target="_blank"
+                rel="noopener"
+                className="group block rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
-                <a
-                  href={album.url}
-                  target="_blank"
-                  rel="noopener"
-                  className="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                >
-                  <div className="relative overflow-hidden">
-                    <ArtTile
-                      src={album.image}
-                      alt={`${album.name} by ${album.artist}`}
-                      label={album.name}
-                      className="w-full transition-transform duration-200 ease-out motion-safe:group-hover:scale-[1.02]"
-                    />
+                <ArtTile
+                  src={album.image}
+                  alt={`${album.name} by ${album.artist}`}
+                  label={album.name}
+                  className="w-full rounded-md border border-border"
+                />
+                <div className="mt-2 flex flex-col gap-0.5">
+                  <span className="truncate text-[13px] font-medium text-foreground">
                     <span
-                      className={`absolute top-2 left-2 z-10 px-1.5 py-0.5 font-mono text-[10px] tnum tracking-wider transition-colors duration-200 ease-out ${
-                        first
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background/85 text-foreground backdrop-blur-sm group-hover:bg-primary group-hover:text-primary-foreground"
-                      }`}
+                      className="font-mono text-xs tnum text-muted-foreground"
                       aria-hidden="true"
                     >
-                      {String(album.rank).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <div className="mt-2.5 flex flex-col gap-0.5">
-                    <span
-                      className={`truncate transition-colors duration-200 group-hover:text-primary ${
-                        first
-                          ? "font-display text-lg font-medium tracking-tight sm:text-xl"
-                          : "text-sm font-medium"
-                      }`}
-                    >
-                      {album.name}
-                    </span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      {album.artist}
-                    </span>
-                    <span className="font-mono text-[11px] tnum text-muted-foreground">
-                      {formatNumber(album.playcount)}
-                      <span> plays</span>
-                    </span>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
+                      {album.rank}
+                    </span>{" "}
+                    {album.name}
+                  </span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {album.artist}
+                  </span>
+                  <span className="font-mono text-xs tnum text-muted-foreground">
+                    {formatNumber(album.playcount)}
+                    <span> plays</span>
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))}
         </ol>
       )}
     </section>

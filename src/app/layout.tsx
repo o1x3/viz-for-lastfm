@@ -1,21 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Fraunces, Spline_Sans_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
-  style: ["normal", "italic"],
-});
-
-const archivo = Archivo({
-  variable: "--font-archivo",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const splineMono = Spline_Sans_Mono({
-  variable: "--font-spline-mono",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -33,19 +26,17 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "viz",
     title: "viz — your Last.fm, visualized",
-    description:
-      "A clean dashboard for your Last.fm scrobbles.",
+    description: "A clean dashboard for your Last.fm scrobbles.",
   },
   twitter: {
     card: "summary_large_image",
     title: "viz — your Last.fm, visualized",
-    description:
-      "A clean dashboard for your Last.fm scrobbles.",
+    description: "A clean dashboard for your Last.fm scrobbles.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#12100d",
+  themeColor: "#0f0f0f",
 };
 
 export default function RootLayout({
@@ -56,12 +47,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${fraunces.variable} ${archivo.variable} ${splineMono.variable} h-full antialiased`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
-        <div className="grain" aria-hidden="true" />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

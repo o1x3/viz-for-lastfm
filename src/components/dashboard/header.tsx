@@ -1,23 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { UserInfo } from "@/lib/lastfm/types";
-import { daysSince, formatMonthYear, formatNumber } from "@/lib/format";
+import { formatMonthYear, formatNumber } from "@/lib/format";
 
 function Monogram({ name }: { name: string }) {
   return (
     <div
       role="img"
       aria-label={name}
-      className="flex size-16 items-center justify-center rounded-full bg-muted md:size-20"
+      className="flex size-14 items-center justify-center rounded-full bg-secondary"
     >
-      <span className="font-display text-2xl italic text-foreground/60 md:text-3xl">
+      <span className="text-lg font-medium text-muted-foreground">
         {(name.trim().charAt(0) || "?").toUpperCase()}
       </span>
     </div>
   );
 }
 
-/** Magazine-folio masthead: wordmark row, then listener identity + the big number. */
+/** Console masthead: slim nav bar, then listener identity + total scrobbles. */
 export function DashHeader({
   info,
   isOwner,
@@ -30,36 +30,36 @@ export function DashHeader({
   const meta = [
     info.realname || null,
     info.country && info.country !== "None" ? info.country : null,
-    `scrobbling since ${formatMonthYear(info.registered)} (${formatNumber(daysSince(info.registered))} days)`,
+    `since ${formatMonthYear(info.registered)}`,
   ].filter(Boolean);
 
   return (
     <header>
-      {/* folio row */}
-      <div className="flex items-baseline justify-between border-b border-border py-4">
+      {/* nav bar */}
+      <div className="flex items-center justify-between border-b border-border py-3">
         <Link
           href="/"
-          className="font-display text-xl italic tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="text-base font-semibold tracking-tight text-foreground transition-colors duration-150 hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           viz
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {isDemo && (
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
               demo data
             </span>
           )}
           {isOwner && (
             <>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+              <span className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
                 you
               </span>
               <form action="/api/auth/logout" method="post">
                 <button
                   type="submit"
-                  className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  sign out
+                  Sign out
                 </button>
               </form>
             </>
@@ -68,45 +68,38 @@ export function DashHeader({
       </div>
 
       {/* masthead */}
-      <div className="flex flex-col gap-10 py-10 md:flex-row md:items-end md:justify-between md:gap-8 md:py-14">
-        <div className="min-w-0">
-          <div className="flex items-center gap-5">
-            {info.avatar ? (
-              <Image
-                src={info.avatar}
-                alt={`${info.name}'s avatar`}
-                width={80}
-                height={80}
-                sizes="80px"
-                className="size-16 rounded-full object-cover md:size-20"
-              />
-            ) : (
-              <Monogram name={info.name} />
-            )}
-            <div className="min-w-0">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                listening stats for
-              </p>
-              <h1 className="truncate font-display text-5xl leading-[1.05] tracking-tight md:text-7xl">
-                {info.name}
-              </h1>
-            </div>
+      <div className="flex flex-col gap-6 py-8 md:flex-row md:items-end md:justify-between md:gap-8">
+        <div className="flex min-w-0 items-center gap-4">
+          {info.avatar ? (
+            <Image
+              src={info.avatar}
+              alt={`${info.name}'s avatar`}
+              width={56}
+              height={56}
+              sizes="56px"
+              className="size-14 rounded-full object-cover"
+            />
+          ) : (
+            <Monogram name={info.name} />
+          )}
+          <div className="min-w-0">
+            <h1 className="truncate text-2xl font-semibold tracking-tight md:text-3xl">
+              {info.name}
+            </h1>
+            <p className="mt-1 truncate text-[13px] text-muted-foreground">
+              {meta.join(" · ")}
+            </p>
           </div>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            {meta.join(" · ")}
-          </p>
         </div>
 
         <div className="shrink-0 md:text-right">
           <p
-            className="font-display tnum leading-none text-[clamp(3.75rem,10vw,7rem)] tracking-tight"
+            className="tnum text-4xl font-semibold leading-none tracking-tight"
             aria-label={`${formatNumber(info.playcount)} total scrobbles`}
           >
             {formatNumber(info.playcount)}
           </p>
-          <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
-            scrobbles
-          </p>
+          <p className="mt-1.5 text-xs text-muted-foreground">scrobbles</p>
         </div>
       </div>
     </header>

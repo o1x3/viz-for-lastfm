@@ -6,81 +6,60 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = "viz — Last.fm stats";
 
-const BG = "#12100d";
-const CREAM = "#f0ebdf";
-const CRIMSON = "#d5310a";
-const MUTED = "rgba(240, 235, 223, 0.55)";
+const BG = "#0f0f0f";
+const PANEL = "#171717";
+const BORDER = "rgba(255, 255, 255, 0.08)";
+const FG = "#ececec";
+const RED = "#e5484d";
+const MUTED = "rgba(236, 236, 236, 0.6)";
 
 async function loadFonts() {
   const dir = path.join(process.cwd(), "src/assets/fonts");
-  const [fraunces, archivo] = await Promise.all([
-    readFile(path.join(dir, "fraunces-600.ttf")),
-    readFile(path.join(dir, "archivo-400.ttf")),
+  const [regular, semibold] = await Promise.all([
+    readFile(path.join(dir, "geist-400.ttf")),
+    readFile(path.join(dir, "geist-600.ttf")),
   ]);
   return [
-    { name: "Fraunces", data: fraunces, weight: 600 as const, style: "normal" as const },
-    { name: "Archivo", data: archivo, weight: 400 as const, style: "normal" as const },
+    { name: "Geist", data: regular, weight: 400 as const, style: "normal" as const },
+    { name: "Geist", data: semibold, weight: 600 as const, style: "normal" as const },
   ];
 }
 
-function Vinyl() {
+function Bars() {
+  const bars = [
+    { h: 96, o: 0.35 },
+    { h: 150, o: 0.5 },
+    { h: 118, o: 0.4 },
+    { h: 210, o: 1 },
+    { h: 170, o: 0.6 },
+    { h: 132, o: 0.45 },
+    { h: 84, o: 0.3 },
+  ];
   return (
     <div
       style={{
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 420,
-        height: 420,
-        borderRadius: 9999,
-        background: "#1c1813",
-        border: `1px solid rgba(240, 235, 223, 0.14)`,
+        alignItems: "flex-end",
+        gap: 18,
+        padding: "48px 48px 0",
+        borderRadius: 12,
+        background: PANEL,
+        border: `1px solid ${BORDER}`,
+        overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 330,
-          height: 330,
-          borderRadius: 9999,
-          border: `1px solid rgba(240, 235, 223, 0.22)`,
-        }}
-      >
+      {bars.map((bar, i) => (
         <div
+          key={i}
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 240,
-            height: 240,
-            borderRadius: 9999,
-            border: `1px solid rgba(240, 235, 223, 0.22)`,
+            width: 34,
+            height: bar.h,
+            borderRadius: "6px 6px 0 0",
+            background: bar.o === 1 ? RED : FG,
+            opacity: bar.o === 1 ? 1 : bar.o,
           }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 140,
-              height: 140,
-              borderRadius: 9999,
-              background: CRIMSON,
-            }}
-          >
-            <div
-              style={{
-                width: 16,
-                height: 16,
-                borderRadius: 9999,
-                background: BG,
-              }}
-            />
-          </div>
-        </div>
-      </div>
+        />
+      ))}
     </div>
   );
 }
@@ -106,7 +85,7 @@ export default async function OpengraphImage({
           alignItems: "center",
           background: BG,
           padding: "72px 80px",
-          fontFamily: "Fraunces",
+          fontFamily: "Geist",
         }}
       >
         <div
@@ -115,59 +94,59 @@ export default async function OpengraphImage({
             flexDirection: "column",
             justifyContent: "center",
             flex: 1,
-            paddingRight: 48,
+            paddingRight: 64,
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 16,
+              gap: 14,
               marginBottom: 40,
             }}
           >
             <div
               style={{
-                width: 14,
-                height: 14,
+                width: 12,
+                height: 12,
                 borderRadius: 9999,
-                background: CRIMSON,
+                background: RED,
               }}
             />
             <div
               style={{
-                fontFamily: "Archivo",
-                fontSize: 17,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: MUTED,
+                fontSize: 28,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: FG,
               }}
             >
-              viz — your Last.fm, visualized
+              viz
             </div>
           </div>
           <div
             style={{
-              fontFamily: "Fraunces",
               fontWeight: 600,
-              fontSize: 88,
-              lineHeight: 1.02,
-              color: CREAM,
-              letterSpacing: "-0.02em",
+              fontSize: 76,
+              lineHeight: 1.05,
+              color: FG,
+              letterSpacing: "-0.03em",
             }}
           >
-            {`${name}’s listening.`}
+            {`${name}’s listening`}
           </div>
           <div
             style={{
-              marginTop: 36,
-              width: 120,
-              height: 2,
-              background: "rgba(240, 235, 223, 0.25)",
+              marginTop: 28,
+              fontSize: 24,
+              fontWeight: 400,
+              color: MUTED,
             }}
-          />
+          >
+            Your Last.fm, visualized.
+          </div>
         </div>
-        <Vinyl />
+        <Bars />
       </div>
     ),
     { ...size, fonts },

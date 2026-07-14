@@ -2,8 +2,8 @@ import { formatNumber } from "@/lib/format";
 
 /**
  * 90-day heat strip — GitHub-style weeks. Columns are weeks, rows Mon..Sun.
- * Intensity ramps through low cream opacities; only the single max day is
- * crimson. Empty days are barely-visible hairline squares. Server-safe SVG.
+ * Intensity ramps through low white opacities; only the single max day is
+ * red. Empty days are near-transparent squares. Server-safe SVG.
  */
 
 const DAY_MS = 86_400_000;
@@ -12,8 +12,7 @@ const PITCH = 13; // cell + gap
 const TOP = 18; // month label band
 const LEFT = 1;
 
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-const MONTHS_TITLE = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /** UTC day index (days since epoch) → Monday-based row 0..6 */
 const rowOf = (dayIndex: number) => (dayIndex + 3) % 7;
@@ -22,10 +21,18 @@ const isoOf = (dayIndex: number) => new Date(dayIndex * DAY_MS).toISOString().sl
 
 function prettyDate(dayIndex: number): string {
   const d = new Date(dayIndex * DAY_MS);
-  return `${MONTHS_TITLE[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
 }
 
-const LEGEND_STEPS = [0.14, 0.34, 0.56, 0.84];
+// white-opacity ramp for non-zero days (quartiles of the max)
+const RAMP = [0.05, 0.12, 0.24, 0.4];
+
+function rampOpacity(t: number): number {
+  if (t >= 0.75) return RAMP[3];
+  if (t >= 0.5) return RAMP[2];
+  if (t >= 0.25) return RAMP[1];
+  return RAMP[0];
+}
 
 export function DayStrip({
   byDay,
@@ -102,9 +109,8 @@ export function DayStrip({
             x={LEFT + w * PITCH}
             y={10}
             fill="var(--muted-foreground)"
-            fontFamily="var(--font-spline-mono), monospace"
-            fontSize={9}
-            letterSpacing="0.15em"
+            fontFamily="var(--font-geist-mono), monospace"
+            fontSize={10}
           >
             {text}
           </text>
@@ -127,12 +133,8 @@ export function DayStrip({
                 width={CELL}
                 height={CELL}
                 rx={2}
-                fill={isMax ? "var(--crimson)" : v > 0 ? "var(--cream)" : "none"}
-                fillOpacity={
-                  isMax ? 0.95 : v > 0 ? Number((0.14 + 0.7 * Math.sqrt(t)).toFixed(2)) : undefined
-                }
-                stroke={v > 0 ? "none" : "var(--border)"}
-                strokeWidth={v > 0 ? 0 : 1}
+                fill={isMax ? "var(--chart-1)" : "var(--foreground)"}
+                fillOpacity={isMax ? 1 : v > 0 ? rampOpacity(t) : 0.03}
               >
                 <title>{`${prettyDate(d)} · ${formatNumber(v)} ${v === 1 ? "play" : "plays"}`}</title>
               </rect>
@@ -141,31 +143,34 @@ export function DayStrip({
         )}
       </svg>
 
-      <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground tnum">
+      <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs text-muted-foreground">
         <span>
           {total > 0 ? (
             <>
-              Peak <span className="text-foreground">{prettyDate(maxDay)}</span> ·{" "}
-              {formatNumber(max)} plays · {formatNumber(total)} total
+              Peak <span className="text-foreground">{prettyDate(maxDay)}</span>{" "}
+              · <span className="font-mono tnum">{formatNumber(max)}</span>{" "}
+              plays ·{" "}
+              <span className="font-mono tnum">{formatNumber(total)}</span>{" "}
+              total
             </>
           ) : (
             <>No plays in the last {days} days</>
           )}
         </span>
         <span className="flex items-center gap-1.5" aria-hidden="true">
-          <span className="mr-1">Less</span>
-          {LEGEND_STEPS.map((o) => (
+          <span className="mr-1">less</span>
+          {RAMP.map((o) => (
             <span
               key={o}
               className="inline-block size-2.5 rounded-[2px]"
-              style={{ background: "var(--cream)", opacity: o }}
+              style={{ background: "var(--foreground)", opacity: o }}
             />
           ))}
           <span
             className="inline-block size-2.5 rounded-[2px]"
-            style={{ background: "var(--crimson)" }}
+            style={{ background: "var(--chart-1)" }}
           />
-          <span className="ml-1">More</span>
+          <span className="ml-1">more</span>
         </span>
       </figcaption>
     </figure>
