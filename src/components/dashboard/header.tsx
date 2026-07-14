@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { UserInfo } from "@/lib/lastfm/types";
 import { formatMonthYear, formatNumber } from "@/lib/format";
+import { VizMark } from "@/components/viz-mark";
 
 function Monogram({ name }: { name: string }) {
   return (
@@ -39,8 +40,9 @@ export function DashHeader({
       <div className="flex items-center justify-between border-b border-border py-3">
         <Link
           href="/"
-          className="text-base font-semibold tracking-tight text-foreground transition-colors duration-150 hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-2 text-base font-semibold tracking-tight text-foreground transition-colors duration-150 hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
+          <VizMark size={20} />
           viz
         </Link>
         <div className="flex items-center gap-3">
