@@ -26,15 +26,23 @@ pnpm dev
 | `SESSION_SECRET` | yes (prod) | Key for sealing the session cookie. Any long random string. |
 | `LASTFM_API_KEY` | yes | Your Last.fm API key. |
 | `LASTFM_SHARED_SECRET` | yes | The shared secret shown next to your key. |
-| `NEXT_PUBLIC_SITE_URL` | no | Canonical URL for OG/social cards. |
+| `NEXT_PUBLIC_SITE_URL` | no | Canonical URL for OG/social cards. On Vercel, auto-detected from `VERCEL_*` if unset. Set when using a custom domain. |
 
-Get an API key in ~30 seconds at [last.fm/api/account/create](https://www.last.fm/api/account/create) — any name works, leave the callback URL blank.
+Get an API key in ~30 seconds at [last.fm/api/account/create](https://www.last.fm/api/account/create) — any name works, leave the callback URL blank (the app passes the callback dynamically at sign-in).
 
 Try it without keys at `/u/demo` (sample data).
 
 ## Deploying to Vercel
 
-Push to GitHub, import into Vercel, set the env vars above. Done.
+1. Push this repo to GitHub and [import it in Vercel](https://vercel.com/new). Vercel auto-detects Next.js and `pnpm` from `pnpm-lock.yaml`; no extra config needed.
+2. In **Project → Settings → Environment Variables**, add:
+   - `SESSION_SECRET` — any long random string (e.g. `openssl rand -base64 32`)
+   - `LASTFM_API_KEY` and `LASTFM_SHARED_SECRET` — from your Last.fm API account
+   - `NEXT_PUBLIC_SITE_URL` — only if you use a custom domain (e.g. `https://viz.example.com`); preview/production `*.vercel.app` URLs work without it
+3. Deploy. Sign-in uses your deployment origin as the Last.fm callback (`/api/auth/callback`), so auth works on preview and production URLs with no Last.fm dashboard changes.
+4. Smoke-check `/u/demo` after deploy; sign in on `/` once keys are set.
+
+`pnpm build` is the production build command (Vercel runs this automatically).
 
 ## Non-commercial
 
