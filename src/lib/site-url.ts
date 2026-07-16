@@ -5,13 +5,17 @@
  */
 export function siteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (explicit) return explicit;
+  if (explicit) return withProtocol(explicit);
 
   const production = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  if (production) return `https://${production}`;
+  if (production) return withProtocol(production);
 
   const preview = process.env.VERCEL_URL;
-  if (preview) return `https://${preview}`;
+  if (preview) return withProtocol(preview);
 
   return "http://localhost:3000";
+}
+
+function withProtocol(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
 }
