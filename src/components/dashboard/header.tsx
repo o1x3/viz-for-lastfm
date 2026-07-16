@@ -52,19 +52,14 @@ export function DashHeader({
             </span>
           )}
           {isOwner && (
-            <>
-              <span className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-                you
-              </span>
-              <form action="/api/auth/logout" method="post">
-                <button
-                  type="submit"
-                  className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  Sign out
-                </button>
-              </form>
-            </>
+            <form action="/api/auth/logout" method="post">
+              <button
+                type="submit"
+                className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Sign out
+              </button>
+            </form>
           )}
         </div>
       </div>
