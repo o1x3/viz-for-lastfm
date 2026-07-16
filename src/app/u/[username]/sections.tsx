@@ -22,7 +22,7 @@ function SectionError() {
   );
 }
 
-/** Stat tiles — need the slow 90-day stats, so they stream in behind the masthead. */
+/** Stat tiles: need the slow 90 day stats, so they stream in behind the masthead. */
 export async function StatsBand({ username }: { username: string }) {
   const result = await getStats(username);
   if (!result.ok) {
@@ -35,7 +35,7 @@ export async function StatsBand({ username }: { username: string }) {
   return <StatTiles stats={result.data} />;
 }
 
-/** Rhythms charts — shares the getStats() request with StatsBand via React cache. */
+/** Rhythms charts: shares the getStats() request with StatsBand via React cache. */
 export async function RhythmsBody({ username }: { username: string }) {
   const result = await getStats(username);
   if (!result.ok) {
@@ -70,7 +70,7 @@ export async function RhythmsBody({ username }: { username: string }) {
   );
 }
 
-/** Top-charts toplists — three parallel Last.fm requests. */
+/** Top charts toplists: three parallel Last.fm requests. */
 export async function RotationBody({ username, period }: { username: string; period: Period }) {
   const result = await getRotation(username, period);
   if (!result.ok) {
@@ -94,7 +94,7 @@ export async function RotationBody({ username, period }: { username: string; per
   );
 }
 
-/** Recent + loved — renders two grid columns inside the parent grid. */
+/** Recent + loved: renders two grid columns inside the parent grid. */
 export async function RecentAndLovedSection({ username }: { username: string }) {
   const result = await getRecentAndLoved(username);
   if (!result.ok) {

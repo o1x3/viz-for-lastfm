@@ -2,11 +2,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * Square album-art tile. When no artwork exists, renders a neutral
+ * Square album art tile. When no artwork exists, renders a neutral
  * fallback: the first letter of the label in the muted foreground tone
- * on a secondary-gray tile.
+ * on a secondary gray tile.
  *
- * Server-safe: no hooks, no client APIs.
+ * Server safe: no hooks, no client APIs.
  */
 export function ArtTile({
   src,

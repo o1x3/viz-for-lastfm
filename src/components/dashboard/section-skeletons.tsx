@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Suspense fallbacks for the streamed dashboard sections. Each mirrors the
- * final panel layout of its section — same card chrome, padding, and grid —
+ * final panel layout of its section: same card chrome, padding, and grid;
  * so content arrival causes no layout shift.
  */
 
@@ -34,7 +34,7 @@ export function StatTilesSkeleton() {
   );
 }
 
-/** Clock card + weekday/day-strip cards (mirrors the Rhythms grid). */
+/** Clock card + weekday/day strip cards (mirrors the Rhythms grid). */
 export function RhythmsSkeleton() {
   return (
     <div className="mt-4 grid gap-3 lg:grid-cols-5" aria-hidden="true">
@@ -97,7 +97,7 @@ export function RotationSkeleton() {
   );
 }
 
-/** One track-list panel (mirrors RecentTracks / LovedTracks). */
+/** One track list panel (mirrors RecentTracks / LovedTracks). */
 export function TrackColumnSkeleton() {
   return (
     <div

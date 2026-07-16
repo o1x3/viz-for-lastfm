@@ -3,7 +3,7 @@ import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:
 import { cookies } from "next/headers";
 
 /**
- * Sealed, httpOnly cookie session. Nothing is stored server-side: the
+ * Sealed, httpOnly cookie session. Nothing is stored server side: the
  * user's Last.fm session key lives AES-256-GCM-encrypted in the cookie
  * itself. API credentials come from server env vars, never from users.
  */

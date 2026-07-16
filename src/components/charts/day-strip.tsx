@@ -1,9 +1,9 @@
 import { formatNumber } from "@/lib/format";
 
 /**
- * 90-day heat strip — GitHub-style weeks. Columns are weeks, rows Mon..Sun.
+ * 90 day heat strip: GitHub style weeks. Columns are weeks, rows Mon..Sun.
  * Intensity ramps through low white opacities; only the single max day is
- * red. Empty days are near-transparent squares. Server-safe SVG.
+ * red. Empty days are near transparent squares. Server safe SVG.
  */
 
 const DAY_MS = 86_400_000;
@@ -14,7 +14,7 @@ const LEFT = 1;
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-/** UTC day index (days since epoch) → Monday-based row 0..6 */
+/** UTC day index (days since epoch) → Monday based row 0..6 */
 const rowOf = (dayIndex: number) => (dayIndex + 3) % 7;
 
 const isoOf = (dayIndex: number) => new Date(dayIndex * DAY_MS).toISOString().slice(0, 10);
@@ -24,7 +24,7 @@ function prettyDate(dayIndex: number): string {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
 }
 
-// white-opacity ramp for non-zero days (quartiles of the max)
+// white opacity ramp for nonzero days (quartiles of the max)
 const RAMP = [0.05, 0.12, 0.24, 0.4];
 
 function rampOpacity(t: number): number {
@@ -61,7 +61,7 @@ export function DayStrip({
     }
   }
 
-  // month labels: label a column when its first in-range day starts a new month,
+  // month labels: label a column when its first in range day starts a new month,
   // keeping at least 3 columns between labels so they never collide
   const monthLabels: { w: number; text: string }[] = [];
   let prevMonth = -1;
