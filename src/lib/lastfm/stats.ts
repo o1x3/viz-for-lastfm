@@ -38,7 +38,7 @@ async function computeStats(creds: Credentials, user: string, now: number): Prom
       const key = dayKey(t.date);
       byDay[key] = (byDay[key] ?? 0) + 1;
       artists.add(t.artist.toLowerCase());
-      tracks.add(`${t.artist}-${t.name}`.toLowerCase());
+      tracks.add(`${t.artist}|${t.name}`.toLowerCase());
       total++;
     }
   };
@@ -97,7 +97,7 @@ async function computeStats(creds: Credentials, user: string, now: number): Prom
  * Heavy: paginates recent tracks (up to MAX_PAGES requests on first compute).
  */
 export async function getListeningStats(creds: Credentials, user: string): Promise<ListeningStats> {
-  // Bucket "now" to 30-minute steps so the cache key is stable within the TTL.
+  // Bucket "now" to 30 minute steps so the cache key is stable within the TTL.
   const bucket = Math.floor(Date.now() / 1000 / 1800) * 1800;
   const cached = unstable_cache(
     (u: string, n: number) => computeStats(creds, u, n),

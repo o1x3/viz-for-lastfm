@@ -54,7 +54,7 @@ const ERROR_COPY: Record<
   "rate-limited": {
     kicker: "Rate limited",
     title: "Too many requests.",
-    body: "Last.fm is rate-limiting requests right now. Give it a minute and try again.",
+    body: "Last.fm is rate limiting requests right now. Give it a minute and try again.",
     cta: "Back home",
   },
   upstream: {
@@ -129,7 +129,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
   const username = decodeURIComponent(rawUsername);
   const period = parsePeriod(sp.period);
 
-  // Only the fast profile fetch (user info + one recent-tracks page) blocks
+  // Only the fast profile fetch (user info + one recent tracks page) blocks
   // the first flush. Everything below streams in via Suspense.
   const profile = await getProfile(username);
   if (!profile.ok) {

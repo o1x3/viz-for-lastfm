@@ -3,7 +3,7 @@ import { formatNumber } from "@/lib/format";
 /**
  * Radial "listening clock": 24 wedges around a small center circle. Wedge
  * radius encodes plays per hour on a sqrt scale (area honesty). Peak hour in
- * red; everything else on a gray ladder. Pure server-safe SVG, no hooks.
+ * red; everything else on a gray ladder. Pure server safe SVG, no hooks.
  */
 
 const CX = 160;
@@ -90,7 +90,7 @@ export function ListeningClock({ byHour }: { byHour: number[] }) {
                 d={wedgePath(R_INNER, r1, a0, a1)}
                 fill={isPeak ? "var(--chart-1)" : grayTone(v / max)}
               >
-                <title>{`${pad2(h)}:00–${pad2((h + 1) % 24)}:00 · ${formatNumber(v)} plays`}</title>
+                <title>{`${pad2(h)}:00 to ${pad2((h + 1) % 24)}:00 · ${formatNumber(v)} plays`}</title>
               </path>
             );
           })}

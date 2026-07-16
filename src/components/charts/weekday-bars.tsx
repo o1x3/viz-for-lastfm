@@ -2,8 +2,8 @@ import { formatNumber } from "@/lib/format";
 
 /**
  * Horizontal weekday bars, Monday first. Day labels in mono on the left,
- * a faint rounded track, a light-gray fill (peak day in red), and a
- * right-aligned tabular count. No gridlines, no axes. Server-safe SVG.
+ * a faint rounded track, a light gray fill (peak day in red), and a
+ * right aligned tabular count. No gridlines, no axes. Server safe SVG.
  */
 
 const DAY_ABBR = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -19,7 +19,7 @@ const COUNT_X = W;
 const BAR_H = 6;
 
 export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
-  // incoming index 0 = Sunday; display Monday-first
+  // incoming index 0 = Sunday; display Monday first
   const values = [1, 2, 3, 4, 5, 6, 0].map((i) => byWeekday[i] ?? 0);
   const total = values.reduce((a, b) => a + b, 0);
   const max = Math.max(...values);

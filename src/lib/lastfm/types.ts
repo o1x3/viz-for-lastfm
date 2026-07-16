@@ -92,9 +92,9 @@ export interface LovedTrack {
   image: string | null;
 }
 
-/** Derived analytics computed from recent-tracks pagination. */
+/** Derived analytics computed from recent tracks pagination. */
 export interface ListeningStats {
-  /** plays per hour of day, index 0-23, local to UTC offset used */
+  /** plays per hour of day, index 0..23, local to UTC offset used */
   byHour: number[];
   /** plays per weekday, index 0 = Sunday */
   byWeekday: number[];

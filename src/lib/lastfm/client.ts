@@ -96,7 +96,7 @@ const num = (v: unknown): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
-/** Last.fm returns a bare object (not a 1-element array) when a list has a single item. */
+/** Last.fm returns a bare object (not a 1 element array) when a list has a single item. */
 function asArray<T>(v: T | T[] | undefined | null): T[] {
   if (v == null) return [];
   return Array.isArray(v) ? v : [v];

@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "viz - your Last.fm, visualized";
+export const alt = "viz: your Last.fm, visualized";
 
 const BG = "#0f0f0f";
 const PANEL = "#171717";

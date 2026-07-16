@@ -22,7 +22,7 @@ function SectionError() {
   );
 }
 
-/** Stat tiles: need the slow 90-day stats, so they stream in behind the masthead. */
+/** Stat tiles: need the slow 90 day stats, so they stream in behind the masthead. */
 export async function StatsBand({ username }: { username: string }) {
   const result = await getStats(username);
   if (!result.ok) {
@@ -70,7 +70,7 @@ export async function RhythmsBody({ username }: { username: string }) {
   );
 }
 
-/** Top-charts toplists: three parallel Last.fm requests. */
+/** Top charts toplists: three parallel Last.fm requests. */
 export async function RotationBody({ username, period }: { username: string; period: Period }) {
   const result = await getRotation(username, period);
   if (!result.ok) {
