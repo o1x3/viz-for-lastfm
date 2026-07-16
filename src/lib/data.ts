@@ -73,7 +73,7 @@ function mapError(e: unknown): { ok: false; error: SectionError } {
 
 export interface Profile {
   info: UserInfo;
-  /** First page of recent tracks — powers the NowPlaying bar; one cheap request. */
+  /** First page of recent tracks: powers the NowPlaying bar; one cheap request. */
   recent: RecentTracksPage;
   /** viewer is the authenticated owner of this profile */
   isOwner: boolean;

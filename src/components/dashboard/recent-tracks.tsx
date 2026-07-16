@@ -35,11 +35,11 @@ export function RecentTracks({ page }: { page: RecentTracksPage }) {
           >
             <span className="min-w-0 flex-1 truncate text-sm">
               <span className="text-foreground">{t.name}</span>
-              <span className="text-muted-foreground"> — {t.artist}</span>
+              <span className="text-muted-foreground"> - {t.artist}</span>
             </span>
             {t.loved && <Heart />}
             <span className="tnum shrink-0 font-mono text-xs text-muted-foreground">
-              {t.date ? timeAgo(t.date) : "—"}
+              {t.date ? timeAgo(t.date) : "-"}
             </span>
           </li>
         ))}

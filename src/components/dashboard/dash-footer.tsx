@@ -6,7 +6,7 @@ export function DashFooter({ isDemo }: { isDemo: boolean }) {
     <footer className="mt-12 pb-8">
       {isDemo && (
         <p className="mb-2 text-xs text-muted-foreground">
-          This is sample data —{" "}
+          This is sample data.{" "}
           <Link
             href="/"
             className="underline underline-offset-4 transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

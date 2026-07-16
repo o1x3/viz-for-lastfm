@@ -38,7 +38,7 @@ async function computeStats(creds: Credentials, user: string, now: number): Prom
       const key = dayKey(t.date);
       byDay[key] = (byDay[key] ?? 0) + 1;
       artists.add(t.artist.toLowerCase());
-      tracks.add(`${t.artist}—${t.name}`.toLowerCase());
+      tracks.add(`${t.artist}-${t.name}`.toLowerCase());
       total++;
     }
   };

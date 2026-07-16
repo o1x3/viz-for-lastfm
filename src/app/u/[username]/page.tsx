@@ -60,7 +60,7 @@ const ERROR_COPY: Record<
   upstream: {
     kicker: "Upstream error",
     title: "Last.fm didn't respond.",
-    body: "Something went wrong fetching this user's data. It is usually brief — try again shortly.",
+    body: "Something went wrong fetching this user's data. It is usually brief; try again shortly.",
     cta: "Back home",
   },
 };
@@ -82,7 +82,7 @@ function ErrorState({
       <p className="mt-4 max-w-md text-balance text-sm leading-relaxed text-muted-foreground">
         {code === "user-not-found" ? (
           <>
-            <span className="font-mono text-foreground">“{username}”</span> — {copy.body}
+            <span className="font-mono text-foreground">“{username}”</span>: {copy.body}
           </>
         ) : (
           copy.body
@@ -147,7 +147,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
         <StatsBand username={username} />
       </Suspense>
 
-      {/* Rhythms — when the listening happens */}
+      {/* Rhythms: when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-10">
         <SectionHeading title="Rhythms" description="Last 90 days" id="rhythms-heading" />
         <Suspense fallback={<RhythmsSkeleton />}>
@@ -155,7 +155,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
         </Suspense>
       </section>
 
-      {/* Top — the charts */}
+      {/* Top: the charts */}
       <section aria-labelledby="rotation-heading" className="mt-10">
         <SectionHeading
           title="Top"

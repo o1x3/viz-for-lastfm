@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { PERIODS, type Period } from "@/lib/lastfm/types";
 import { cn } from "@/lib/utils";
 
-/** Segmented control — active segment gets a raised background. */
+/** Segmented control: active segment gets a raised background. */
 export function PeriodSwitcher({ current }: { current: Period }) {
   const router = useRouter();
   const pathname = usePathname();

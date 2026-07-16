@@ -44,7 +44,7 @@ export function LovedTracks({ tracks }: { tracks: LovedTrack[] }) {
                 </span>
                 <span className="min-w-0 flex-1 truncate text-sm">
                   <span className="font-medium text-foreground">{track.name}</span>
-                  <span className="text-muted-foreground"> — {track.artist}</span>
+                  <span className="text-muted-foreground"> - {track.artist}</span>
                 </span>
                 <span className="tnum shrink-0 font-mono text-xs text-muted-foreground">
                   {formatDate(track.date)}

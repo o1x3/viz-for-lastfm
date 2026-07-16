@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Suspense fallbacks for the streamed dashboard sections. Each mirrors the
- * final panel layout of its section — same card chrome, padding, and grid —
+ * final panel layout of its section: same card chrome, padding, and grid;
  * so content arrival causes no layout shift.
  */
 

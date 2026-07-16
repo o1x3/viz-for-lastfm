@@ -77,7 +77,7 @@ async function call<T>(
 
 type RawImage = { size: string; "#text": string };
 
-/** Last.fm returns a known placeholder star for missing art — treat it as null. */
+/** Last.fm returns a known placeholder star for missing art; treat it as null. */
 const PLACEHOLDER_HASH = "2a96cbd8b46e442fc41c2b86b821562f";
 
 function bestImage(images: RawImage[] | undefined): string | null {

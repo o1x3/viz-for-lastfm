@@ -1,7 +1,7 @@
 "use client";
 
 // global-error can render without the root layout's CSS, so every style
-// here is inline — it must never flash unstyled white.
+// here is inline; it must never flash unstyled white.
 
 const BG = "#0f0f0f";
 const FG = "#ececec";
@@ -64,7 +64,7 @@ export default function GlobalError({
             lineHeight: 1.6,
           }}
         >
-          An unexpected error occurred. It is usually brief — try again.
+          An unexpected error occurred. It is usually brief; try again.
         </p>
         {error?.digest ? (
           <p

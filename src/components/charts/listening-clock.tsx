@@ -1,7 +1,7 @@
 import { formatNumber } from "@/lib/format";
 
 /**
- * Radial "listening clock" — 24 wedges around a small center circle. Wedge
+ * Radial "listening clock": 24 wedges around a small center circle. Wedge
  * radius encodes plays per hour on a sqrt scale (area honesty). Peak hour in
  * red; everything else on a gray ladder. Pure server-safe SVG, no hooks.
  */

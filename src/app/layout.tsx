@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: "viz — your Last.fm, visualized",
+    default: "viz - your Last.fm, visualized",
     template: "%s · viz",
   },
   description:
@@ -24,12 +24,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "viz",
-    title: "viz — your Last.fm, visualized",
+    title: "viz - your Last.fm, visualized",
     description: "A clean dashboard for your Last.fm scrobbles.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "viz — your Last.fm, visualized",
+    title: "viz - your Last.fm, visualized",
     description: "A clean dashboard for your Last.fm scrobbles.",
   },
 };

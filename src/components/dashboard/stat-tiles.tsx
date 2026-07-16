@@ -23,7 +23,7 @@ function Tile({
   );
 }
 
-/** Stat panel grid — last-90-days numbers. */
+/** Stat panel grid: last-90-days numbers. */
 export function StatTiles({ stats }: { stats: ListeningStats }) {
   const avgPerDay = Math.round(stats.total / 90);
 

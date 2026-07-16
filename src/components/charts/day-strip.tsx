@@ -1,7 +1,7 @@
 import { formatNumber } from "@/lib/format";
 
 /**
- * 90-day heat strip — GitHub-style weeks. Columns are weeks, rows Mon..Sun.
+ * 90-day heat strip: GitHub-style weeks. Columns are weeks, rows Mon..Sun.
  * Intensity ramps through low white opacities; only the single max day is
  * red. Empty days are near-transparent squares. Server-safe SVG.
  */
