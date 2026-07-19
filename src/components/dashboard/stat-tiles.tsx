@@ -8,7 +8,7 @@ import { Sparkline } from "@/components/dither-kit";
 const DAY_MS = 86_400_000;
 const isoOf = (dayIndex: number) => new Date(dayIndex * DAY_MS).toISOString().slice(0, 10);
 
-function Cell({
+function Row({
   label,
   value,
   detail,
@@ -20,12 +20,12 @@ function Cell({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-center bg-card p-4">
+    <div className="flex flex-1 items-center justify-between gap-4 px-4 py-2.5">
       <p className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </p>
       {value && (
-        <p className="tnum mt-1 text-xl font-bold leading-none tracking-tight">
+        <p className="tnum text-lg font-bold leading-none tracking-tight">
           {value}
           {detail && (
             <span className="ml-1.5 text-xs font-normal text-muted-foreground">{detail}</span>
@@ -38,8 +38,8 @@ function Cell({
 }
 
 /**
- * Compact stat panel — one bordered card, hairline-divided 3×2 grid.
- * The sixth cell is a real 14-day sparkline from byDay.
+ * Stat ledger — six slim label/value rows dividing the panel's full height,
+ * so it lines up with the play-share donut without dead space.
  */
 export function StatTiles({ stats }: { stats: ListeningStats }) {
   const avgPerDay = Math.round(stats.total / 90);
@@ -52,20 +52,20 @@ export function StatTiles({ stats }: { stats: ListeningStats }) {
   return (
     <section
       aria-label="Listening statistics, last 90 days"
-      className="grid h-full grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3"
+      className="flex h-full flex-col divide-y divide-border overflow-hidden rounded-lg border border-border bg-card"
     >
-      <Cell label="Plays · 90d" value={formatNumber(stats.total)} />
-      <Cell label="Artists" value={formatNumber(stats.uniqueArtists)} />
-      <Cell label="Tracks" value={formatNumber(stats.uniqueTracks)} />
-      <Cell
+      <Row label="Plays · 90d" value={formatNumber(stats.total)} />
+      <Row label="Artists" value={formatNumber(stats.uniqueArtists)} />
+      <Row label="Tracks" value={formatNumber(stats.uniqueTracks)} />
+      <Row
         label="Day streak"
         value={`${stats.currentStreakDays}`}
         detail={`best ${stats.longestStreakDays}`}
       />
-      <Cell label="Avg / day" value={formatNumber(avgPerDay)} />
-      <Cell label="Trend · 14d">
-        <Sparkline data={spark} color="red" className="mt-2 h-7" bloom="low" bloomOnHover />
-      </Cell>
+      <Row label="Avg / day" value={formatNumber(avgPerDay)} />
+      <Row label="Trend · 14d">
+        <Sparkline data={spark} color="red" className="h-6 w-40" bloom="low" bloomOnHover />
+      </Row>
     </section>
   );
 }

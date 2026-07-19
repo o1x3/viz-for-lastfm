@@ -46,7 +46,7 @@ export function ArtistShare({ artists }: { artists: TopArtist[] }) {
         dataKey="plays"
         nameKey="name"
         innerRadius={0.62}
-        className="h-52"
+        className="h-44 flex-1"
         bloom="low"
       >
         <Pie variant="gradient" />
