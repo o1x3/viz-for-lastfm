@@ -1,6 +1,6 @@
 import { getRecentAndLoved, getRotation, getStats } from "@/lib/data";
 import type { Period } from "@/lib/lastfm/types";
-import { OverviewBand } from "@/components/dashboard/overview-band";
+import { OverviewBand, TrendSpark } from "@/components/dashboard/overview-band";
 import { RecentTracks } from "@/components/dashboard/recent-tracks";
 import { LovedTracks } from "@/components/dashboard/loved-tracks";
 import { ListeningClock } from "@/components/charts/listening-clock";
@@ -20,6 +20,17 @@ function SectionError() {
   return (
     <p className="text-xs text-muted-foreground/70">Could not load this section.</p>
   );
+}
+
+/** 14-day trend sparkline for the now-playing strip; renders nothing on error. */
+export async function TrendSlot({ username }: { username: string }) {
+  const result = await getStats(username);
+  if (!result.ok) return null;
+  const stats = result.data;
+  const endDay = Math.floor(stats.to / 86400);
+  const isoOf = (d: number) => new Date(d * 86_400_000).toISOString().slice(0, 10);
+  const data = Array.from({ length: 14 }, (_, i) => stats.byDay[isoOf(endDay - 13 + i)] ?? 0);
+  return <TrendSpark data={data} />;
 }
 
 /**

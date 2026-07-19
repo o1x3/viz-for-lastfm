@@ -13,10 +13,19 @@ import { PALETTE, rgb } from "@/components/dither-kit/palette";
  * the period's play share (donut + vertical legend).
  */
 
-const DAY_MS = 86_400_000;
-const isoOf = (dayIndex: number) => new Date(dayIndex * DAY_MS).toISOString().slice(0, 10);
-
 const SLICE_COLORS: DitherColor[] = ["red", "orange", "pink", "purple", "blue"];
+
+/** Right-aligned 14-day trend cluster — lives in the now-playing strip. */
+export function TrendSpark({ data }: { data: number[] }) {
+  return (
+    <span className="hidden shrink-0 items-center gap-3 sm:flex">
+      <span className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        Trend · 14d
+      </span>
+      <Sparkline data={data} color="red" className="h-6 w-40" bloom="low" bloomOnHover />
+    </span>
+  );
+}
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -51,12 +60,6 @@ export function OverviewBand({
   stats: ListeningStats | null;
   artists: TopArtist[] | null;
 }) {
-  const spark = useMemo(() => {
-    if (!stats) return [];
-    const endDay = Math.floor(stats.to / 86400);
-    return Array.from({ length: 14 }, (_, i) => stats.byDay[isoOf(endDay - 13 + i)] ?? 0);
-  }, [stats]);
-
   const share = useMemo(() => {
     if (!artists || artists.length === 0) return null;
     const top = artists.slice(0, 5);
@@ -87,7 +90,6 @@ export function OverviewBand({
             <p className="tnum text-4xl font-bold leading-none tracking-tight">
               {formatNumber(stats.total)}
             </p>
-            <Sparkline data={spark} color="red" className="mt-1.5 h-8" bloom="low" bloomOnHover />
           </>
         ) : (
           <ZoneError />

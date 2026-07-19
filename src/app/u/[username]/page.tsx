@@ -15,6 +15,7 @@ import {
 } from "@/components/dashboard/section-skeletons";
 import {
   OverviewSection,
+  TrendSlot,
   RhythmsBody,
   RotationBody,
   RecentAndLovedSection,
@@ -144,7 +145,22 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 font-mono md:px-10">
       <DashHeader info={info} isOwner={isOwner} isDemo={isDemo} />
 
-      <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
+      <NowPlaying
+        initial={recent.tracks[0] ?? null}
+        isOwner={isOwner}
+        trend={
+          <Suspense
+            fallback={
+              <span
+                aria-hidden="true"
+                className="hidden h-6 w-40 animate-pulse rounded bg-secondary sm:block"
+              />
+            }
+          >
+            <TrendSlot username={username} />
+          </Suspense>
+        }
+      />
 
       <Suspense fallback={<OverviewSkeleton />}>
         <OverviewSection username={username} period={period} />
