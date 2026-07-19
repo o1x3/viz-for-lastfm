@@ -112,11 +112,14 @@ function SectionHeading({
   return (
     <div className="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h2 id={id} className="text-sm font-medium text-foreground">
+        <h2
+          id={id}
+          className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
+        >
           {title}
         </h2>
         {description && (
-          <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
+          <p className="mt-1 text-xs text-muted-foreground/70">{description}</p>
         )}
       </div>
       {children}
@@ -138,7 +141,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
   const { info, recent, isOwner, isDemo } = profile.data;
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-5 md:px-10">
+    <main className="mx-auto w-full max-w-6xl flex-1 px-5 font-mono md:px-10">
       <DashHeader info={info} isOwner={isOwner} isDemo={isDemo} />
 
       <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />

@@ -4,8 +4,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { PERIODS, type Period } from "@/lib/lastfm/types";
 import { cn } from "@/lib/utils";
+import { DitherButton } from "@/components/dither-kit";
 
-/** Segmented control: active segment gets a raised background. */
+/** Segmented control — dithered buttons, active segment in red. */
 export function PeriodSwitcher({ current }: { current: Period }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -23,27 +24,24 @@ export function PeriodSwitcher({ current }: { current: Period }) {
       role="group"
       aria-label="Time period"
       className={cn(
-        "inline-flex flex-wrap items-center gap-0.5 rounded-md bg-secondary p-0.5 transition-opacity",
+        "inline-flex flex-wrap items-center gap-1.5 transition-opacity",
         isPending && "opacity-50",
       )}
     >
       {PERIODS.map((p) => {
         const active = p.value === current;
         return (
-          <button
+          <DitherButton
             key={p.value}
             type="button"
             onClick={() => select(p.value)}
             aria-pressed={active}
-            className={cn(
-              "rounded px-2.5 py-1 text-xs font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              active
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
-            )}
+            color={active ? "red" : "grey"}
+            variant={active ? "gradient" : "dotted"}
+            className="px-2.5 py-1 text-[11px] font-bold"
           >
             {p.label}
-          </button>
+          </DitherButton>
         );
       })}
     </div>

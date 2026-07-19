@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { RecentTrack } from "@/lib/lastfm/types";
 import { ArtTile } from "@/components/art-tile";
+import { DitherGradient } from "@/components/dither-kit";
 
 const POLL_MS = 45_000;
 
@@ -69,11 +70,19 @@ export function NowPlaying({
 
   return (
     <div
-      className="mb-8 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5"
+      className="relative mb-8 overflow-hidden rounded-lg border border-border bg-card"
       role="status"
       aria-live="polite"
       aria-label={`Now playing: ${track.name} by ${track.artist}`}
     >
+      <DitherGradient
+        from="red"
+        direction="up"
+        cell={3}
+        opacity={0.14}
+        className="pointer-events-none absolute inset-0"
+      />
+      <div className="relative flex items-center gap-3 px-4 py-3">
       <style>{`
         @keyframes viz-eq {
           0%, 100% { transform: scaleY(0.3); }
@@ -110,7 +119,9 @@ export function NowPlaying({
         />
       </span>
 
-      <span className="shrink-0 text-xs text-muted-foreground">Now playing</span>
+      <span className="shrink-0 text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        Now playing
+      </span>
 
       <ArtTile
         src={track.image}
@@ -124,9 +135,10 @@ export function NowPlaying({
         className="min-w-0 text-sm line-clamp-2 sm:line-clamp-1"
         title={`${track.name} by ${track.artist}`}
       >
-        <span className="font-medium text-foreground">{track.name}</span>
-        <span className="text-muted-foreground"> by {track.artist}</span>
+        <span className="font-bold text-foreground">{track.name}</span>
+        <span className="text-muted-foreground"> — {track.artist}</span>
       </p>
+      </div>
     </div>
   );
 }
