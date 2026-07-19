@@ -20,18 +20,13 @@ function Panel({
   );
 }
 
-/** Ghost overview band (mirrors OverviewBand's three zones). */
+/** Ghost overview band (mirrors OverviewBand's two zones). */
 export function OverviewSkeleton() {
   return (
     <div
-      className="grid divide-y divide-border rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.3fr_1.6fr] lg:divide-x lg:divide-y-0"
+      className="grid divide-y divide-border rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.6fr] lg:divide-x lg:divide-y-0"
       aria-hidden="true"
     >
-      <div className="flex flex-col justify-center gap-2 p-5">
-        <Skeleton className="h-3 w-24" />
-        <Skeleton className="h-9 w-28" />
-        <Skeleton className="mt-1.5 h-8 w-full" />
-      </div>
       <div className="grid grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="p-4">

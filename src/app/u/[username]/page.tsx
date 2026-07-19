@@ -153,7 +153,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
             fallback={
               <span
                 aria-hidden="true"
-                className="hidden h-6 w-40 animate-pulse rounded bg-secondary sm:block"
+                className="hidden h-16 w-80 animate-pulse self-end rounded-t bg-secondary/40 sm:block"
               />
             }
           >

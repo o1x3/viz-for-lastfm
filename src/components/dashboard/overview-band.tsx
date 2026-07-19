@@ -15,15 +15,28 @@ import { PALETTE, rgb } from "@/components/dither-kit/palette";
 
 const SLICE_COLORS: DitherColor[] = ["red", "orange", "pink", "purple", "blue"];
 
-/** Right-aligned 14-day trend cluster — lives in the now-playing strip. */
-export function TrendSpark({ data }: { data: number[] }) {
+/**
+ * Right cluster of the now-playing strip: the 90-day plays number plus the
+ * 14-day sparkline, baseline flush with the strip's bottom edge (the strip
+ * container drops its vertical padding so the chart can sit on the border).
+ */
+export function TrendSpark({ data, total }: { data: number[]; total: number }) {
   return (
-    <span className="hidden shrink-0 items-center gap-3 sm:flex">
-      <span className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-        Trend · 14d
-      </span>
-      <Sparkline data={data} color="red" className="h-6 w-40" bloom="low" bloomOnHover />
-    </span>
+    <div className="flex shrink-0 items-end gap-4 self-stretch">
+      <div className="py-2.5 text-right">
+        <Label>Plays · 90d</Label>
+        <p className="tnum mt-1 text-2xl font-bold leading-none tracking-tight">
+          {formatNumber(total)}
+        </p>
+      </div>
+      <Sparkline
+        data={data}
+        color="red"
+        className="hidden h-16 w-80 self-end sm:block"
+        bloom="low"
+        bloomOnHover
+      />
+    </div>
   );
 }
 
@@ -80,22 +93,8 @@ export function OverviewBand({
   return (
     <section
       aria-label="Overview: listening statistics and play share"
-      className="grid divide-y divide-border overflow-hidden rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.3fr_1.6fr] lg:divide-x lg:divide-y-0"
+      className="grid divide-y divide-border overflow-hidden rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.6fr] lg:divide-x lg:divide-y-0"
     >
-      {/* hero — the one big number */}
-      <div className="flex flex-col justify-center gap-2 p-5">
-        {stats ? (
-          <>
-            <Label>Plays · 90 days</Label>
-            <p className="tnum text-4xl font-bold leading-none tracking-tight">
-              {formatNumber(stats.total)}
-            </p>
-          </>
-        ) : (
-          <ZoneError />
-        )}
-      </div>
-
       {/* quad — secondary stats */}
       {stats ? (
         <div className="grid grid-cols-2 gap-px bg-border">

@@ -83,7 +83,8 @@ export function NowPlaying({
         opacity={0.14}
         className="pointer-events-none absolute inset-0"
       />
-      <div className="relative flex items-center justify-between gap-4 px-4 py-3">
+      {/* no vertical padding — the trend sparkline's baseline sits on the bottom border */}
+      <div className="relative flex items-center justify-between gap-4 px-4">
         <style>{`
           @keyframes viz-eq {
             0%, 100% { transform: scaleY(0.3); }
@@ -107,7 +108,7 @@ export function NowPlaying({
         `}</style>
 
         {track ? (
-          <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-3 py-3">
             <span
               className="viz-live-dot size-2 shrink-0 rounded-full bg-primary"
               aria-hidden="true"
@@ -149,7 +150,7 @@ export function NowPlaying({
             </p>
           </div>
         ) : (
-          <span className="text-xs text-muted-foreground">Nothing playing</span>
+          <span className="py-3 text-xs text-muted-foreground">Nothing playing</span>
         )}
 
         {trend}

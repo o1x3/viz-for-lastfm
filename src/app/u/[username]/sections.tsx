@@ -30,7 +30,7 @@ export async function TrendSlot({ username }: { username: string }) {
   const endDay = Math.floor(stats.to / 86400);
   const isoOf = (d: number) => new Date(d * 86_400_000).toISOString().slice(0, 10);
   const data = Array.from({ length: 14 }, (_, i) => stats.byDay[isoOf(endDay - 13 + i)] ?? 0);
-  return <TrendSpark data={data} />;
+  return <TrendSpark data={data} total={stats.total} />;
 }
 
 /**
