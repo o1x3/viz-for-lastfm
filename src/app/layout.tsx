@@ -12,10 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ),
+  // Tolerate a scheme-less env value like "vizfm.xyz" — new URL() throws on it.
+  metadataBase: new URL(/^https?:\/\//.test(siteUrl) ? siteUrl : `https://${siteUrl}`),
   title: {
     default: "viz — your Last.fm, visualized",
     template: "%s · viz",
