@@ -191,7 +191,7 @@ export function DitherButton({
       ref={buttonRef}
       type="button"
       className={cn(
-        "relative isolate overflow-hidden rounded-md px-4 py-2 font-mono text-xs text-foreground transition-opacity focus-visible:ring-1 focus-visible:ring-foreground/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40",
+        "relative isolate overflow-hidden rounded-md px-4 py-2 font-mono text-xs text-foreground transition-opacity focus-visible:ring-1 focus-visible:ring-foreground/40 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
