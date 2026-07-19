@@ -78,7 +78,7 @@ export function DayStrip({
             : `Daily plays over the last ${days} days. No plays recorded.`
         }
       >
-        <AreaChart data={rows} config={CONFIG} className="h-48" bloom="low">
+        <AreaChart data={rows} config={CONFIG} className="h-56" bloom="low">
           <Grid />
           <XAxis dataKey="label" maxTicks={rows.length} tickFormatter={(v) => String(v ?? "")} />
           <YAxis />

@@ -42,7 +42,7 @@ export function ListeningClock({ byHour }: { byHour: number[] }) {
             : "Listening clock. No plays recorded in this period."
         }
       >
-        <RadarChart data={rows} config={CONFIG} nameKey="hour" className="h-64" bloom="low">
+        <RadarChart data={rows} config={CONFIG} nameKey="hour" className="h-56" bloom="low">
           <Radar dataKey="plays" variant="gradient" />
         </RadarChart>
       </div>

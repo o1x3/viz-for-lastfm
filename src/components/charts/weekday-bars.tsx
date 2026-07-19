@@ -45,7 +45,7 @@ export function WeekdayBars({ byWeekday }: { byWeekday: number[] }) {
             : "Plays by weekday. No plays recorded in this period."
         }
       >
-        <BarChart data={rows} config={CONFIG} className="h-48" bloom="low">
+        <BarChart data={rows} config={CONFIG} className="h-56" bloom="low">
           <Grid />
           <XAxis dataKey="day" maxTicks={7} />
           <YAxis />

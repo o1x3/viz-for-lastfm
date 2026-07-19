@@ -76,16 +76,17 @@ export async function RhythmsBody({ username }: { username: string }) {
   const stats = result.data;
   return (
     <>
-      <div className="mt-4 grid gap-3 lg:grid-cols-5">
-        <div className="rounded-lg border border-border bg-card p-4 sm:p-5 lg:col-span-3">
-          <ListeningClock byHour={stats.byHour} />
+      <div className="mt-4 flex flex-col gap-3">
+        {/* daily plays — the richest series gets the full width */}
+        <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
+          <DayStrip byDay={stats.byDay} from={stats.from} to={stats.to} />
         </div>
-        <div className="flex flex-col gap-3 lg:col-span-2">
+        <div className="grid gap-3 lg:grid-cols-2">
+          <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
+            <ListeningClock byHour={stats.byHour} />
+          </div>
           <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
             <WeekdayBars byWeekday={stats.byWeekday} />
-          </div>
-          <div className="flex-1 rounded-lg border border-border bg-card p-4 sm:p-5">
-            <DayStrip byDay={stats.byDay} from={stats.from} to={stats.to} />
           </div>
         </div>
       </div>
