@@ -20,54 +20,44 @@ function Panel({
   );
 }
 
-/** Ghost overview band (mirrors OverviewBand's two zones). */
+/** Ghost stat strip (mirrors OverviewBand's four cells). */
 export function OverviewSkeleton() {
   return (
     <div
-      className="grid divide-y divide-border rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.6fr] lg:divide-x lg:divide-y-0"
+      className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-4"
       aria-hidden="true"
     >
-      <div className="grid grid-cols-2">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="p-4">
-            <Skeleton className="h-3 w-16" />
-            <Skeleton className="mt-2 h-6 w-12" />
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center gap-5 p-5">
-        <Skeleton className="size-36 flex-none rounded-full" />
-        <div className="flex-1 space-y-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-3 w-full" />
-          ))}
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="bg-card p-4">
+          <Skeleton className="h-3 w-16" />
+          <Skeleton className="mt-2 h-6 w-12" />
         </div>
-      </div>
+      ))}
     </div>
   );
 }
 
-/** Clock card + weekday/day strip cards (mirrors the Rhythms grid). */
+/** Daily + weekday row, then the two circular charts (mirrors the Rhythms grid). */
 export function RhythmsSkeleton() {
   return (
-    <div className="mt-4 grid gap-3 lg:grid-cols-5" aria-hidden="true">
-      <Panel className="lg:col-span-3">
-        <Skeleton className="mx-auto aspect-square w-full max-w-md rounded-full" />
-      </Panel>
-      <div className="flex flex-col gap-3 lg:col-span-2">
+    <div className="mt-4 flex flex-col gap-3" aria-hidden="true">
+      <div className="grid gap-3 lg:grid-cols-3">
+        <Panel className="lg:col-span-2">
+          <Skeleton className="h-56 w-full rounded-sm" />
+          <Skeleton className="mt-3 h-3 w-48" />
+        </Panel>
         <Panel>
-          <div className="flex flex-col gap-2.5">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <Skeleton className="h-3 w-8" />
-                <Skeleton className="h-3 flex-1 rounded-sm" style={{ maxWidth: `${90 - i * 9}%` }} />
-              </div>
-            ))}
-          </div>
+          <Skeleton className="h-56 w-full rounded-sm" />
+          <Skeleton className="mt-3 h-3 w-32" />
         </Panel>
-        <Panel className="flex-1">
-          <Skeleton className="h-16 w-full rounded-sm" />
-        </Panel>
+      </div>
+      <div className="grid gap-3 lg:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <Panel key={i}>
+            <Skeleton className="mx-auto size-56 rounded-full" />
+            <Skeleton className="mt-3 h-3 w-40" />
+          </Panel>
+        ))}
       </div>
     </div>
   );

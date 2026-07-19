@@ -1,6 +1,7 @@
 import { getRecentAndLoved, getRotation, getStats } from "@/lib/data";
 import type { Period } from "@/lib/lastfm/types";
 import { OverviewBand, TrendSpark } from "@/components/dashboard/overview-band";
+import { PlayShare } from "@/components/dashboard/play-share";
 import { RecentTracks } from "@/components/dashboard/recent-tracks";
 import { LovedTracks } from "@/components/dashboard/loved-tracks";
 import { ListeningClock } from "@/components/charts/listening-clock";
@@ -33,60 +34,56 @@ export async function TrendSlot({ username }: { username: string }) {
   return <TrendSpark data={data} total={stats.total} />;
 }
 
-/**
- * Overview band — 90-day stats + the period's play share in one panel.
- * Both fetches are React-cached, so RhythmsBody and RotationBody reuse them.
- */
-export async function OverviewSection({
-  username,
-  period,
-}: {
-  username: string;
-  period: Period;
-}) {
-  const [statsResult, rotationResult] = await Promise.all([
-    getStats(username),
-    getRotation(username, period),
-  ]);
-  if (!statsResult.ok && !rotationResult.ok) {
+/** Stat strip — 90-day numbers, streamed behind the masthead. */
+export async function OverviewSection({ username }: { username: string }) {
+  const result = await getStats(username);
+  if (!result.ok) {
     return (
       <div className="rounded-lg border border-border bg-card p-4">
         <SectionError />
       </div>
     );
   }
-  return (
-    <OverviewBand
-      stats={statsResult.ok ? statsResult.data : null}
-      artists={rotationResult.ok ? rotationResult.data.topArtists : null}
-    />
-  );
+  return <OverviewBand stats={result.data} />;
 }
 
-/** Rhythms charts — shares the getStats() request with StatsBand via React cache. */
-export async function RhythmsBody({ username }: { username: string }) {
-  const result = await getStats(username);
-  if (!result.ok) {
+/** Rhythms charts — reuses the cached getStats()/getRotation() requests. */
+export async function RhythmsBody({ username, period }: { username: string; period: Period }) {
+  const [statsResult, rotationResult] = await Promise.all([
+    getStats(username),
+    getRotation(username, period),
+  ]);
+  if (!statsResult.ok) {
     return (
       <div className="mt-4 rounded-lg border border-border bg-card p-4">
         <SectionError />
       </div>
     );
   }
-  const stats = result.data;
+  const stats = statsResult.data;
   return (
     <>
       <div className="mt-4 flex flex-col gap-3">
-        {/* daily plays — the richest series gets the full width */}
-        <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
-          <DayStrip byDay={stats.byDay} from={stats.from} to={stats.to} />
+        {/* daily plays (richest series) wide, weekday beside it */}
+        <div className="grid gap-3 lg:grid-cols-3">
+          <div className="rounded-lg border border-border bg-card p-4 sm:p-5 lg:col-span-2">
+            <DayStrip byDay={stats.byDay} from={stats.from} to={stats.to} />
+          </div>
+          <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
+            <WeekdayBars byWeekday={stats.byWeekday} />
+          </div>
         </div>
+        {/* the two circular charts, side by side */}
         <div className="grid gap-3 lg:grid-cols-2">
           <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
             <ListeningClock byHour={stats.byHour} />
           </div>
           <div className="rounded-lg border border-border bg-card p-4 sm:p-5">
-            <WeekdayBars byWeekday={stats.byWeekday} />
+            {rotationResult.ok ? (
+              <PlayShare artists={rotationResult.data.topArtists} />
+            ) : (
+              <SectionError />
+            )}
           </div>
         </div>
       </div>

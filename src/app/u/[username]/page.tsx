@@ -163,14 +163,14 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
       />
 
       <Suspense fallback={<OverviewSkeleton />}>
-        <OverviewSection username={username} period={period} />
+        <OverviewSection username={username} />
       </Suspense>
 
       {/* Rhythms: when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-10">
         <SectionHeading title="Rhythms" description="Last 90 days" id="rhythms-heading" />
         <Suspense fallback={<RhythmsSkeleton />}>
-          <RhythmsBody username={username} />
+          <RhythmsBody username={username} period={period} />
         </Suspense>
       </section>
 
