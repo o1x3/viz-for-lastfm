@@ -36,7 +36,20 @@ export async function StatsBand({ username }: { username: string }) {
   return <StatTiles stats={result.data} />;
 }
 
-/** Rhythms charts: shares the getStats() request with StatsBand via React cache. */
+/** Play-share donut — shares the getRotation() request with RotationBody via React cache. */
+export async function ShareSection({ username, period }: { username: string; period: Period }) {
+  const result = await getRotation(username, period);
+  if (!result.ok) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-4">
+        <SectionError />
+      </div>
+    );
+  }
+  return <ArtistShare artists={result.data.topArtists} />;
+}
+
+/** Rhythms charts — shares the getStats() request with StatsBand via React cache. */
 export async function RhythmsBody({ username }: { username: string }) {
   const result = await getStats(username);
   if (!result.ok) {
@@ -84,11 +97,8 @@ export async function RotationBody({ username, period }: { username: string; per
   const { topArtists, topAlbums, topTracks } = result.data;
   return (
     <>
-      <div className="mt-4 grid gap-3 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <TopArtists artists={topArtists} />
-        </div>
-        <ArtistShare artists={topArtists} />
+      <div className="mt-4">
+        <TopArtists artists={topArtists} />
       </div>
       <div className="mt-3 grid gap-3 lg:grid-cols-2">
         <TopAlbums albums={topAlbums} />

@@ -8,37 +8,42 @@ import { Sparkline } from "@/components/dither-kit";
 const DAY_MS = 86_400_000;
 const isoOf = (dayIndex: number) => new Date(dayIndex * DAY_MS).toISOString().slice(0, 10);
 
-function Tile({
-  value,
+function Cell({
   label,
+  value,
   detail,
-  spark,
+  children,
 }: {
-  value: string;
   label: string;
+  value?: string;
   detail?: string;
-  spark?: number[];
+  children?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
+    <div className="flex flex-col justify-center bg-card p-4">
       <p className="text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </p>
-      <p className="tnum mt-1.5 text-2xl font-bold leading-none tracking-tight">{value}</p>
-      {detail && <p className="tnum mt-1.5 text-xs text-muted-foreground">{detail}</p>}
-      {spark && spark.length > 1 && (
-        <Sparkline data={spark} color="red" className="mt-3 h-8" bloom="low" bloomOnHover />
+      {value && (
+        <p className="tnum mt-1 text-xl font-bold leading-none tracking-tight">
+          {value}
+          {detail && (
+            <span className="ml-1.5 text-xs font-normal text-muted-foreground">{detail}</span>
+          )}
+        </p>
       )}
+      {children}
     </div>
   );
 }
 
-/** Stat panel grid — last-90-days numbers; plays tile carries a 14-day sparkline. */
+/**
+ * Compact stat panel — one bordered card, hairline-divided 3×2 grid.
+ * The sixth cell is a real 14-day sparkline from byDay.
+ */
 export function StatTiles({ stats }: { stats: ListeningStats }) {
   const avgPerDay = Math.round(stats.total / 90);
 
-  // real 14-day series from byDay — only the plays tile gets a spark, because
-  // it's the only stat we have a daily series for
   const spark = useMemo(() => {
     const endDay = Math.floor(stats.to / 86400);
     return Array.from({ length: 14 }, (_, i) => stats.byDay[isoOf(endDay - 13 + i)] ?? 0);
@@ -47,17 +52,20 @@ export function StatTiles({ stats }: { stats: ListeningStats }) {
   return (
     <section
       aria-label="Listening statistics, last 90 days"
-      className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
+      className="grid h-full grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3"
     >
-      <Tile value={formatNumber(stats.total)} label="Plays · 90d" spark={spark} />
-      <Tile value={formatNumber(stats.uniqueArtists)} label="Artists" />
-      <Tile value={formatNumber(stats.uniqueTracks)} label="Tracks" />
-      <Tile
-        value={`${stats.currentStreakDays}`}
+      <Cell label="Plays · 90d" value={formatNumber(stats.total)} />
+      <Cell label="Artists" value={formatNumber(stats.uniqueArtists)} />
+      <Cell label="Tracks" value={formatNumber(stats.uniqueTracks)} />
+      <Cell
         label="Day streak"
+        value={`${stats.currentStreakDays}`}
         detail={`best ${stats.longestStreakDays}`}
       />
-      <Tile value={formatNumber(avgPerDay)} label="Avg / day" />
+      <Cell label="Avg / day" value={formatNumber(avgPerDay)} />
+      <Cell label="Trend · 14d">
+        <Sparkline data={spark} color="red" className="mt-2 h-7" bloom="low" bloomOnHover />
+      </Cell>
     </section>
   );
 }

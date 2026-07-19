@@ -15,6 +15,7 @@ import {
 } from "@/components/dashboard/section-skeletons";
 import {
   StatsBand,
+  ShareSection,
   RhythmsBody,
   RotationBody,
   RecentAndLovedSection,
@@ -146,9 +147,24 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
 
       <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
 
-      <Suspense fallback={<StatTilesSkeleton />}>
-        <StatsBand username={username} />
-      </Suspense>
+      {/* stats + play share, one row on lg */}
+      <div className="grid items-stretch gap-3 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <Suspense fallback={<StatTilesSkeleton />}>
+            <StatsBand username={username} />
+          </Suspense>
+        </div>
+        <Suspense
+          fallback={
+            <div
+              aria-hidden="true"
+              className="min-h-64 animate-pulse rounded-lg border border-border bg-card"
+            />
+          }
+        >
+          <ShareSection username={username} period={period} />
+        </Suspense>
+      </div>
 
       {/* Rhythms: when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-10">

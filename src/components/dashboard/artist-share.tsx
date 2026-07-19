@@ -38,7 +38,7 @@ export function ArtistShare({ artists }: { artists: TopArtist[] }) {
   }
 
   return (
-    <section className="rounded-lg border border-border bg-card p-5">
+    <section className="flex h-full flex-col rounded-lg border border-border bg-card p-5">
       <Header />
       <PieChart
         data={rows}
