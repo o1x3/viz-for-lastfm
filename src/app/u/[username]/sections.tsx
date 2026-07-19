@@ -7,6 +7,7 @@ import { ListeningClock } from "@/components/charts/listening-clock";
 import { WeekdayBars } from "@/components/charts/weekday-bars";
 import { DayStrip } from "@/components/charts/day-strip";
 import { TopArtists } from "@/components/dashboard/top-artists";
+import { ArtistShare } from "@/components/dashboard/artist-share";
 import { TopAlbums } from "@/components/dashboard/top-albums";
 import { TopTracks } from "@/components/dashboard/top-tracks";
 
@@ -83,8 +84,11 @@ export async function RotationBody({ username, period }: { username: string; per
   const { topArtists, topAlbums, topTracks } = result.data;
   return (
     <>
-      <div className="mt-4">
-        <TopArtists artists={topArtists} />
+      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <TopArtists artists={topArtists} />
+        </div>
+        <ArtistShare artists={topArtists} />
       </div>
       <div className="mt-3 grid gap-3 lg:grid-cols-2">
         <TopAlbums albums={topAlbums} />

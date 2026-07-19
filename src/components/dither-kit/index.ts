@@ -7,6 +7,7 @@ export {
 } from "./avatar"
 export { Bar, type BarProps } from "./bar"
 export { BarChart } from "./bar-chart"
+export { BlockLegend } from "./block-legend"
 export {
   type ButtonVariant,
   DitherButton,
@@ -27,14 +28,21 @@ export type {
   BloomInput,
   BloomLevel,
 } from "./dither-paint"
+export { ActiveDot, Dot, type DotVariant } from "./dot"
 export {
   DitherGradient,
   type DitherGradientProps,
   type GradientDirection,
 } from "./gradient"
 export { Grid } from "./grid"
+export { Legend } from "./legend"
 export type { DitherColor } from "./palette"
+export { Pie, type PieProps } from "./pie"
+export { PieChart, type PieChartProps } from "./pie-chart"
 export type { PixelBloom, PixelColor } from "./pixel"
+export { Radar, type RadarProps } from "./radar"
+export { RadarChart, type RadarChartProps } from "./radar-chart"
+export { ReferenceLine } from "./reference-line"
 export type { StackType } from "./scales"
 export { Sparkline, type SparklineProps } from "./sparkline"
 export { Tooltip, type TooltipVariant } from "./tooltip"

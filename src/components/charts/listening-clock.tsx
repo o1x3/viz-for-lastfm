@@ -2,18 +2,12 @@
 
 import { useMemo } from "react";
 import { formatNumber } from "@/lib/format";
-import {
-  Bar,
-  BarChart,
-  Grid,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "@/components/dither-kit";
+import { Radar, RadarChart } from "@/components/dither-kit";
 
 /**
- * Plays by hour of day — 24 dithered bars (dither-kit). Replaces the radial
- * clock; keeps the peak-hour readout below.
+ * Radial listening clock — a 24-axis dithered radar (dither-kit), midnight at
+ * the top. The polygon's shape is the day's listening silhouette; cardinal
+ * hours are labeled, the rest of the axes stay bare.
  */
 
 const pad2 = (h: number) => String(h).padStart(2, "0");
@@ -26,7 +20,12 @@ export function ListeningClock({ byHour }: { byHour: number[] }) {
     const total = hours.reduce((a, b) => a + b, 0);
     const max = Math.max(...hours);
     return {
-      rows: hours.map((plays, h) => ({ hour: pad2(h), plays })),
+      rows: hours.map((plays, h) => ({
+        // cardinal hours get labels; the rest use unique invisible strings so
+        // the frame renders a bare spoke (labels double as React keys)
+        hour: h % 6 === 0 ? pad2(h) : "​".repeat(h),
+        plays,
+      })),
       total,
       max,
       peakHour: hours.indexOf(max),
@@ -39,17 +38,13 @@ export function ListeningClock({ byHour }: { byHour: number[] }) {
         role="img"
         aria-label={
           total > 0
-            ? `Plays by hour of day. Peak hour ${pad2(peakHour)}:00 with ${formatNumber(max)} plays out of ${formatNumber(total)} total.`
-            : "Plays by hour of day. No plays recorded in this period."
+            ? `Listening clock. Peak hour ${pad2(peakHour)}:00 with ${formatNumber(max)} plays out of ${formatNumber(total)} total.`
+            : "Listening clock. No plays recorded in this period."
         }
       >
-        <BarChart data={rows} config={CONFIG} className="h-48" bloom="low">
-          <Grid />
-          <XAxis dataKey="hour" maxTicks={6} />
-          <YAxis />
-          <Bar dataKey="plays" variant="gradient" />
-          <Tooltip />
-        </BarChart>
+        <RadarChart data={rows} config={CONFIG} nameKey="hour" className="h-64" bloom="low">
+          <Radar dataKey="plays" variant="gradient" />
+        </RadarChart>
       </div>
 
       <figcaption className="mt-3 text-xs text-muted-foreground">

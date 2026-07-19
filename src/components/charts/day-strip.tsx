@@ -3,9 +3,11 @@
 import { useMemo } from "react";
 import { formatNumber } from "@/lib/format";
 import {
+  ActiveDot,
   Area,
   AreaChart,
   Grid,
+  ReferenceLine,
   Tooltip,
   XAxis,
   YAxis,
@@ -80,7 +82,12 @@ export function DayStrip({
           <Grid />
           <XAxis dataKey="label" maxTicks={rows.length} tickFormatter={(v) => String(v ?? "")} />
           <YAxis />
-          <Area dataKey="plays" variant="gradient" />
+          <Area dataKey="plays" variant="gradient">
+            <ActiveDot />
+          </Area>
+          {total > 0 && (
+            <ReferenceLine y={Math.round(total / days)} label={`avg ${Math.round(total / days)}`} />
+          )}
           <Tooltip />
         </AreaChart>
       </div>
