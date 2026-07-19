@@ -5,7 +5,7 @@ import { formatNumber } from "@/lib/format";
 import { Radar, RadarChart } from "@/components/dither-kit";
 
 /**
- * Radial listening clock — a 24-axis dithered radar (dither-kit), midnight at
+ * Radial listening clock: a 24-axis dithered radar (dither-kit), midnight at
  * the top. The polygon's shape is the day's listening silhouette; cardinal
  * hours are labeled, the rest of the axes stay bare.
  */

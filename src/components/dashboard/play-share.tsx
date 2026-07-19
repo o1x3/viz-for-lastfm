@@ -8,7 +8,7 @@ import { Pie, PieChart } from "@/components/dither-kit";
 import { PALETTE, rgb } from "@/components/dither-kit/palette";
 
 /**
- * Play-share donut — top five artists of the period plus an "Other" bucket.
+ * Play-share donut: top five artists of the period plus an "Other" bucket.
  * The legend doubles as the caption line below the chart, matching the
  * peak-readout grammar of the neighboring chart panels.
  */
@@ -59,7 +59,7 @@ export function PlayShare({ artists }: { artists: TopArtist[] }) {
         </PieChart>
       </div>
 
-      {/* the index — legend disguised as the caption line */}
+      {/* the index: legend disguised as the caption line */}
       <figcaption className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
         {share.rows.map((r) => (
           <span key={r.name} className="flex items-center gap-1.5">

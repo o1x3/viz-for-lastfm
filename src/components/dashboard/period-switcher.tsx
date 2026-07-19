@@ -6,7 +6,7 @@ import { PERIODS, type Period } from "@/lib/lastfm/types";
 import { cn } from "@/lib/utils";
 import { DitherButton } from "@/components/dither-kit";
 
-/** Segmented control — dithered buttons, active segment in red. */
+/** Segmented control: dithered buttons, active segment in red. */
 export function PeriodSwitcher({ current }: { current: Period }) {
   const router = useRouter();
   const pathname = usePathname();

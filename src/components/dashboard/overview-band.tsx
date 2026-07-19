@@ -51,7 +51,7 @@ function Cell({ label, value, detail }: { label: string; value: string; detail?:
   );
 }
 
-/** Slim stat strip — four hairline-divided cells, 90-day numbers. */
+/** Slim stat strip: four hairline-divided cells, 90-day numbers. */
 export function OverviewBand({ stats }: { stats: ListeningStats }) {
   const avgPerDay = Math.round(stats.total / 90);
 

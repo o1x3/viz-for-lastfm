@@ -14,7 +14,7 @@ import {
 } from "@/components/dither-kit";
 
 /**
- * 90-day daily-plays area — dithered fill (dither-kit), month ticks on the
+ * 90-day daily-plays area: dithered fill (dither-kit), month ticks on the
  * x-axis, peak/total readout below. Replaces the GitHub-style heat strip.
  */
 

@@ -34,7 +34,7 @@ export async function TrendSlot({ username }: { username: string }) {
   return <TrendSpark data={data} total={stats.total} />;
 }
 
-/** Stat strip — 90-day numbers, streamed behind the masthead. */
+/** Stat strip: 90-day numbers, streamed behind the masthead. */
 export async function OverviewSection({ username }: { username: string }) {
   const result = await getStats(username);
   if (!result.ok) {
@@ -47,7 +47,7 @@ export async function OverviewSection({ username }: { username: string }) {
   return <OverviewBand stats={result.data} />;
 }
 
-/** Rhythms charts — reuses the cached getStats()/getRotation() requests. */
+/** Rhythms charts: reuses the cached getStats()/getRotation() requests. */
 export async function RhythmsBody({ username, period }: { username: string; period: Period }) {
   const [statsResult, rotationResult] = await Promise.all([
     getStats(username),

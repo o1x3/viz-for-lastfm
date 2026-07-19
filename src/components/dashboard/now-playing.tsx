@@ -19,7 +19,7 @@ export function NowPlaying({
 }: {
   initial: RecentTrack | null;
   isOwner: boolean;
-  /** Right-aligned slot — the 14-day trend sparkline, streamed from the server. */
+  /** Right-aligned slot: the 14-day trend sparkline, streamed from the server. */
   trend?: React.ReactNode;
 }) {
   const [track, setTrack] = useState<RecentTrack | null>(
@@ -83,7 +83,7 @@ export function NowPlaying({
         opacity={0.14}
         className="pointer-events-none absolute inset-0"
       />
-      {/* no vertical padding — the trend sparkline's baseline sits on the bottom border */}
+      {/* no vertical padding: the trend sparkline's baseline sits on the bottom border */}
       <div className="relative flex items-center justify-between gap-4 px-4">
         <style>{`
           @keyframes viz-eq {
@@ -143,10 +143,10 @@ export function NowPlaying({
             {/* mobile: wrap to 2 lines at word boundaries; sm+: single line with ellipsis */}
             <p
               className="min-w-0 text-sm line-clamp-2 sm:line-clamp-1"
-              title={`${track.name} — ${track.artist}`}
+              title={`${track.name} by ${track.artist}`}
             >
               <span className="font-bold text-foreground">{track.name}</span>
-              <span className="text-muted-foreground"> — {track.artist}</span>
+              <span className="text-muted-foreground"> by {track.artist}</span>
             </p>
           </div>
         ) : (

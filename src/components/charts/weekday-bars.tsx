@@ -12,7 +12,7 @@ import {
 } from "@/components/dither-kit";
 
 /**
- * Plays by weekday, Monday first — dithered bars (dither-kit), dotted
+ * Plays by weekday, Monday first: dithered bars (dither-kit), dotted
  * variant to read differently from the hourly chart. Peak readout below.
  */
 
