@@ -77,7 +77,7 @@ async function call<T>(
 
 type RawImage = { size: string; "#text": string };
 
-/** Last.fm returns a known placeholder star for missing art — treat it as null. */
+/** Last.fm returns a known placeholder star for missing art; treat it as null. */
 const PLACEHOLDER_HASH = "2a96cbd8b46e442fc41c2b86b821562f";
 
 function bestImage(images: RawImage[] | undefined): string | null {
@@ -96,7 +96,7 @@ const num = (v: unknown): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
-/** Last.fm returns a bare object (not a 1-element array) when a list has a single item. */
+/** Last.fm returns a bare object (not a 1 element array) when a list has a single item. */
 function asArray<T>(v: T | T[] | undefined | null): T[] {
   if (v == null) return [];
   return Array.isArray(v) ? v : [v];

@@ -74,14 +74,14 @@ export default async function Home({
           <p className="text-xs text-muted-foreground">
             Set <code className="font-mono">LASTFM_API_KEY</code> and{" "}
             <code className="font-mono">LASTFM_SHARED_SECRET</code> to enable
-            sign-in
+            sign in
           </p>
         )}
       </div>
 
       <footer className="absolute bottom-6 px-6 text-center">
         <p className="text-xs text-muted-foreground">
-          Nothing stored server-side · Not affiliated with Last.fm
+          Nothing stored server side · Not affiliated with Last.fm
         </p>
       </footer>
     </main>

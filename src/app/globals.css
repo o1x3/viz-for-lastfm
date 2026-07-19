@@ -122,7 +122,7 @@
   }
 }
 
-/* motion accessibility — collapse decorative animations & long transitions */
+/* motion accessibility: collapse decorative animations & long transitions */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

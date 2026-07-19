@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Suspense fallbacks for the streamed dashboard sections. Each mirrors the
- * final panel layout of its section — same card chrome, padding, and grid —
+ * final panel layout of its section: same card chrome, padding, and grid;
  * so content arrival causes no layout shift.
  */
 
@@ -20,41 +20,44 @@ function Panel({
   );
 }
 
-/** Ghost stat tiles (mirrors StatTiles). */
-export function StatTilesSkeleton() {
+/** Ghost stat strip (mirrors OverviewBand's four cells). */
+export function OverviewSkeleton() {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5" aria-hidden="true">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border bg-card p-4">
-          <Skeleton className="h-3 w-20" />
-          <Skeleton className="mt-2 h-7 w-16" />
+    <div
+      className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-4"
+      aria-hidden="true"
+    >
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="bg-card p-4">
+          <Skeleton className="h-3 w-16" />
+          <Skeleton className="mt-2 h-6 w-12" />
         </div>
       ))}
     </div>
   );
 }
 
-/** Clock card + weekday/day-strip cards (mirrors the Rhythms grid). */
+/** Daily + weekday row, then the two circular charts (mirrors the Rhythms grid). */
 export function RhythmsSkeleton() {
   return (
-    <div className="mt-4 grid gap-3 lg:grid-cols-5" aria-hidden="true">
-      <Panel className="lg:col-span-3">
-        <Skeleton className="mx-auto aspect-square w-full max-w-md rounded-full" />
-      </Panel>
-      <div className="flex flex-col gap-3 lg:col-span-2">
+    <div className="mt-4 flex flex-col gap-3" aria-hidden="true">
+      <div className="grid gap-3 lg:grid-cols-3">
+        <Panel className="lg:col-span-2">
+          <Skeleton className="h-56 w-full rounded-sm" />
+          <Skeleton className="mt-3 h-3 w-48" />
+        </Panel>
         <Panel>
-          <div className="flex flex-col gap-2.5">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <Skeleton className="h-3 w-8" />
-                <Skeleton className="h-3 flex-1 rounded-sm" style={{ maxWidth: `${90 - i * 9}%` }} />
-              </div>
-            ))}
-          </div>
+          <Skeleton className="h-56 w-full rounded-sm" />
+          <Skeleton className="mt-3 h-3 w-32" />
         </Panel>
-        <Panel className="flex-1">
-          <Skeleton className="h-16 w-full rounded-sm" />
-        </Panel>
+      </div>
+      <div className="grid gap-3 lg:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <Panel key={i}>
+            <Skeleton className="mx-auto size-56 rounded-full" />
+            <Skeleton className="mt-3 h-3 w-40" />
+          </Panel>
+        ))}
       </div>
     </div>
   );
@@ -97,7 +100,7 @@ export function RotationSkeleton() {
   );
 }
 
-/** One track-list panel (mirrors RecentTracks / LovedTracks). */
+/** One track list panel (mirrors RecentTracks / LovedTracks). */
 export function TrackColumnSkeleton() {
   return (
     <div

@@ -3,20 +3,7 @@ import Link from "next/link";
 import type { UserInfo } from "@/lib/lastfm/types";
 import { formatMonthYear, formatNumber } from "@/lib/format";
 import { VizMark } from "@/components/viz-mark";
-
-function Monogram({ name }: { name: string }) {
-  return (
-    <div
-      role="img"
-      aria-label={name}
-      className="flex size-14 items-center justify-center rounded-full bg-secondary"
-    >
-      <span className="text-lg font-medium text-muted-foreground">
-        {(name.trim().charAt(0) || "?").toUpperCase()}
-      </span>
-    </div>
-  );
-}
+import { DitherAvatar } from "@/components/dither-kit";
 
 /** Console masthead: slim nav bar, then listener identity + total scrobbles. */
 export function DashHeader({
@@ -52,19 +39,14 @@ export function DashHeader({
             </span>
           )}
           {isOwner && (
-            <>
-              <span className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-                you
-              </span>
-              <form action="/api/auth/logout" method="post">
-                <button
-                  type="submit"
-                  className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  Sign out
-                </button>
-              </form>
-            </>
+            <form action="/api/auth/logout" method="post">
+              <button
+                type="submit"
+                className="text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Sign out
+              </button>
+            </form>
           )}
         </div>
       </div>
@@ -82,10 +64,10 @@ export function DashHeader({
               className="size-14 rounded-full object-cover"
             />
           ) : (
-            <Monogram name={info.name} />
+            <DitherAvatar name={info.name} hue={8} size={56} bloom="low" />
           )}
           <div className="min-w-0">
-            <h1 className="truncate text-2xl font-semibold tracking-tight md:text-3xl">
+            <h1 className="truncate text-2xl font-bold tracking-tight md:text-3xl">
               {info.name}
             </h1>
             <p className="mt-1 truncate text-[13px] text-muted-foreground">
@@ -96,12 +78,14 @@ export function DashHeader({
 
         <div className="shrink-0 md:text-right">
           <p
-            className="tnum text-4xl font-semibold leading-none tracking-tight"
+            className="tnum text-4xl font-bold leading-none tracking-tight"
             aria-label={`${formatNumber(info.playcount)} total scrobbles`}
           >
             {formatNumber(info.playcount)}
           </p>
-          <p className="mt-1.5 text-xs text-muted-foreground">scrobbles</p>
+          <p className="mt-1.5 text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            scrobbles since {formatMonthYear(info.registered)}
+          </p>
         </div>
       </div>
     </header>

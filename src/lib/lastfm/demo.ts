@@ -15,7 +15,7 @@ import type {
  * (design previews, and a public /u/demo for visitors).
  */
 
-// Seeded PRNG (mulberry32) — deterministic across renders.
+// Seeded PRNG (mulberry32): deterministic across renders.
 function rng(seed: number) {
   let a = seed;
   return () => {

@@ -47,10 +47,10 @@ type CredContext =
   | { mode: "real"; creds: Credentials; isOwner: boolean };
 
 /**
- * Resolve demo-vs-real credentials once per request (React cache) so every
+ * Resolve demo vs real credentials once per request (React cache) so every
  * granular fetcher agrees on the mode. API credentials always come from
- * server env vars; the session only identifies the signed-in user.
- * Username "demo" without a session serves the baked-in demo dataset.
+ * server env vars; the session only identifies the signed in user.
+ * Username "demo" without a session serves the baked in demo dataset.
  */
 const resolveCreds = cache(async (username: string): Promise<CredContext> => {
   const session = await getSession();
@@ -76,14 +76,14 @@ function mapError(e: unknown): { ok: false; error: SectionError } {
 
 export interface Profile {
   info: UserInfo;
-  /** First page of recent tracks — powers the NowPlaying bar; one cheap request. */
+  /** First page of recent tracks: powers the NowPlaying bar; one cheap request. */
   recent: RecentTracksPage;
   /** viewer is the authenticated owner of this profile */
   isOwner: boolean;
   isDemo: boolean;
 }
 
-/** Fast: user info + first recent-tracks page. Blocks the page shell. */
+/** Fast: user info + first recent tracks page. Blocks the page shell. */
 export const getProfile = cache(async (username: string): Promise<SectionResult<Profile>> => {
   const ctx = await resolveCreds(username);
   if (ctx.mode === "demo") {
@@ -144,7 +144,7 @@ export interface RecentAndLoved {
 }
 
 /**
- * Recent log + loved tracks. The recent-tracks request matches getProfile's
+ * Recent log + loved tracks. The recent tracks request matches getProfile's
  * (same URL + options), so Next's fetch memoization dedupes it per render.
  */
 export const getRecentAndLoved = cache(
@@ -166,7 +166,7 @@ export const getRecentAndLoved = cache(
   },
 );
 
-/** Heavy: 90-day listening stats (paginated). Shared by the stat band and Rhythms. */
+/** Heavy: 90 day listening stats (paginated). Shared by the stat band and Rhythms. */
 export const getStats = cache(async (username: string): Promise<SectionResult<ListeningStats>> => {
   const ctx = await resolveCreds(username);
   if (ctx.mode === "demo") return { ok: true, data: demoStats() };

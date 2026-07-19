@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,26 +14,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
 export const metadata: Metadata = {
-  // Tolerate a scheme-less env value like "vizfm.xyz" — new URL() throws on it.
-  metadataBase: new URL(/^https?:\/\//.test(siteUrl) ? siteUrl : `https://${siteUrl}`),
+  metadataBase: new URL(siteUrl()),
   title: {
-    default: "viz — your Last.fm, visualized",
+    default: "viz: your Last.fm, visualized",
     template: "%s · viz",
   },
   description:
-    "A clean dashboard for your Last.fm scrobbles. Sign in with Last.fm; nothing is stored server-side.",
+    "A clean dashboard for your Last.fm scrobbles. Sign in with Last.fm; nothing is stored server side.",
   openGraph: {
     type: "website",
     siteName: "viz",
-    title: "viz — your Last.fm, visualized",
+    title: "viz: your Last.fm, visualized",
     description: "A clean dashboard for your Last.fm scrobbles.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "viz — your Last.fm, visualized",
+    title: "viz: your Last.fm, visualized",
     description: "A clean dashboard for your Last.fm scrobbles.",
   },
 };
@@ -50,7 +49,10 @@ export default function RootLayout({
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { RecentTrack } from "@/lib/lastfm/types";
 import { ArtTile } from "@/components/art-tile";
+import { DitherGradient } from "@/components/dither-kit";
 
 const POLL_MS = 45_000;
 
@@ -14,9 +15,12 @@ const POLL_MS = 45_000;
 export function NowPlaying({
   initial,
   isOwner,
+  trend,
 }: {
   initial: RecentTrack | null;
   isOwner: boolean;
+  /** Right-aligned slot: the 14-day trend sparkline, streamed from the server. */
+  trend?: React.ReactNode;
 }) {
   const [track, setTrack] = useState<RecentTrack | null>(
     initial?.nowPlaying ? initial : null,
@@ -35,7 +39,7 @@ export function NowPlaying({
         const json: { nowPlaying: RecentTrack | null } = await res.json();
         if (!cancelled) setTrack(json.nowPlaying ?? null);
       } catch {
-        /* transient network error — keep last known state */
+        /* transient network error: keep last known state */
       }
     };
 
@@ -65,68 +69,92 @@ export function NowPlaying({
     };
   }, [isOwner]);
 
-  if (!track) return null;
-
   return (
     <div
-      className="mb-8 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5"
+      className="relative mb-8 overflow-hidden rounded-lg border border-border bg-card"
       role="status"
       aria-live="polite"
-      aria-label={`Now playing: ${track.name} by ${track.artist}`}
+      aria-label={track ? `Now playing: ${track.name} by ${track.artist}` : "Nothing playing"}
     >
-      <style>{`
-        @keyframes viz-eq {
-          0%, 100% { transform: scaleY(0.3); }
-          50% { transform: scaleY(1); }
-        }
-        .viz-eq-bar {
-          transform-origin: bottom;
-          animation: viz-eq 0.9s ease-in-out infinite;
-        }
-        @keyframes viz-pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.35; }
-        }
-        .viz-live-dot {
-          animation: viz-pulse 1.6s ease-in-out infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .viz-eq-bar, .viz-live-dot { animation: none; }
-          .viz-eq-bar { transform: scaleY(0.6); }
-        }
-      `}</style>
-
-      <span className="viz-live-dot size-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-
-      <span className="flex h-3.5 items-end gap-[3px]" aria-hidden="true">
-        <span className="viz-eq-bar w-[2px] bg-muted-foreground/60" style={{ height: "100%" }} />
-        <span
-          className="viz-eq-bar w-[2px] bg-muted-foreground/60"
-          style={{ height: "100%", animationDelay: "0.25s" }}
-        />
-        <span
-          className="viz-eq-bar w-[2px] bg-muted-foreground/60"
-          style={{ height: "100%", animationDelay: "0.5s" }}
-        />
-      </span>
-
-      <span className="shrink-0 text-xs text-muted-foreground">Now playing</span>
-
-      <ArtTile
-        src={track.image}
-        alt={`${track.album || track.name} artwork`}
-        label={track.album || track.name}
-        className="size-8 shrink-0"
+      <DitherGradient
+        from="red"
+        direction="up"
+        cell={3}
+        opacity={0.14}
+        className="pointer-events-none absolute inset-0"
       />
+      {/* no vertical padding: the trend sparkline's baseline sits on the bottom border */}
+      <div className="relative flex items-center justify-between gap-4 px-4">
+        <style>{`
+          @keyframes viz-eq {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+          }
+          .viz-eq-bar {
+            transform-origin: bottom;
+            animation: viz-eq 0.9s ease-in-out infinite;
+          }
+          @keyframes viz-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+          }
+          .viz-live-dot {
+            animation: viz-pulse 1.6s ease-in-out infinite;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .viz-eq-bar, .viz-live-dot { animation: none; }
+            .viz-eq-bar { transform: scaleY(0.6); }
+          }
+        `}</style>
 
-      {/* mobile: wrap to 2 lines at word boundaries; sm+: single line with ellipsis */}
-      <p
-        className="min-w-0 text-sm line-clamp-2 sm:line-clamp-1"
-        title={`${track.name} — ${track.artist}`}
-      >
-        <span className="font-medium text-foreground">{track.name}</span>
-        <span className="text-muted-foreground"> — {track.artist}</span>
-      </p>
+        {track ? (
+          <div className="flex min-w-0 flex-1 items-center gap-3 py-3">
+            <span
+              className="viz-live-dot size-2 shrink-0 rounded-full bg-primary"
+              aria-hidden="true"
+            />
+
+            <span className="flex h-3.5 items-end gap-[3px]" aria-hidden="true">
+              <span
+                className="viz-eq-bar w-[2px] bg-muted-foreground/60"
+                style={{ height: "100%" }}
+              />
+              <span
+                className="viz-eq-bar w-[2px] bg-muted-foreground/60"
+                style={{ height: "100%", animationDelay: "0.25s" }}
+              />
+              <span
+                className="viz-eq-bar w-[2px] bg-muted-foreground/60"
+                style={{ height: "100%", animationDelay: "0.5s" }}
+              />
+            </span>
+
+            <span className="shrink-0 text-[9.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+              Now playing
+            </span>
+
+            <ArtTile
+              src={track.image}
+              alt={`${track.album || track.name} artwork`}
+              label={track.album || track.name}
+              className="size-8 shrink-0"
+            />
+
+            {/* mobile: wrap to 2 lines at word boundaries; sm+: single line with ellipsis */}
+            <p
+              className="min-w-0 text-sm line-clamp-2 sm:line-clamp-1"
+              title={`${track.name} by ${track.artist}`}
+            >
+              <span className="font-bold text-foreground">{track.name}</span>
+              <span className="text-muted-foreground"> by {track.artist}</span>
+            </p>
+          </div>
+        ) : (
+          <span className="py-3 text-xs text-muted-foreground">Nothing playing</span>
+        )}
+
+        {trend}
+      </div>
     </div>
   );
 }
