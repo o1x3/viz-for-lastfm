@@ -8,13 +8,14 @@ import { NowPlaying } from "@/components/dashboard/now-playing";
 import { PeriodSwitcher } from "@/components/dashboard/period-switcher";
 import { DashFooter } from "@/components/dashboard/dash-footer";
 import {
-  StatTilesSkeleton,
+  OverviewSkeleton,
   RhythmsSkeleton,
   RotationSkeleton,
   TrackColumnSkeleton,
 } from "@/components/dashboard/section-skeletons";
 import {
-  StatsBand,
+  OverviewSection,
+  TrendSlot,
   RhythmsBody,
   RotationBody,
   RecentAndLovedSection,
@@ -112,11 +113,14 @@ function SectionHeading({
   return (
     <div className="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h2 id={id} className="text-sm font-medium text-foreground">
+        <h2
+          id={id}
+          className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
+        >
           {title}
         </h2>
         {description && (
-          <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
+          <p className="mt-1 text-xs text-muted-foreground/70">{description}</p>
         )}
       </div>
       {children}
@@ -138,20 +142,35 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
   const { info, recent, isOwner, isDemo } = profile.data;
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-5 md:px-10">
+    <main className="mx-auto w-full max-w-6xl flex-1 px-5 font-mono md:px-10">
       <DashHeader info={info} isOwner={isOwner} isDemo={isDemo} />
 
-      <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
+      <NowPlaying
+        initial={recent.tracks[0] ?? null}
+        isOwner={isOwner}
+        trend={
+          <Suspense
+            fallback={
+              <span
+                aria-hidden="true"
+                className="hidden h-16 w-80 animate-pulse self-end rounded-t bg-secondary/40 sm:block"
+              />
+            }
+          >
+            <TrendSlot username={username} />
+          </Suspense>
+        }
+      />
 
-      <Suspense fallback={<StatTilesSkeleton />}>
-        <StatsBand username={username} />
+      <Suspense fallback={<OverviewSkeleton />}>
+        <OverviewSection username={username} />
       </Suspense>
 
       {/* Rhythms: when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-10">
         <SectionHeading title="Rhythms" description="Last 90 days" id="rhythms-heading" />
         <Suspense fallback={<RhythmsSkeleton />}>
-          <RhythmsBody username={username} />
+          <RhythmsBody username={username} period={period} />
         </Suspense>
       </section>
 
