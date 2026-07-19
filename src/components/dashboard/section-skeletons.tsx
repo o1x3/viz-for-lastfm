@@ -20,16 +20,34 @@ function Panel({
   );
 }
 
-/** Ghost stat tiles (mirrors StatTiles). */
-export function StatTilesSkeleton() {
+/** Ghost overview band (mirrors OverviewBand's three zones). */
+export function OverviewSkeleton() {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5" aria-hidden="true">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border bg-card p-4">
-          <Skeleton className="h-3 w-20" />
-          <Skeleton className="mt-2 h-7 w-16" />
+    <div
+      className="grid divide-y divide-border rounded-lg border border-border bg-card lg:grid-cols-[1.1fr_1.3fr_1.6fr] lg:divide-x lg:divide-y-0"
+      aria-hidden="true"
+    >
+      <div className="flex flex-col justify-center gap-2 p-5">
+        <Skeleton className="h-3 w-24" />
+        <Skeleton className="h-9 w-28" />
+        <Skeleton className="mt-1.5 h-8 w-full" />
+      </div>
+      <div className="grid grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="p-4">
+            <Skeleton className="h-3 w-16" />
+            <Skeleton className="mt-2 h-6 w-12" />
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-5 p-5">
+        <Skeleton className="size-36 flex-none rounded-full" />
+        <div className="flex-1 space-y-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton key={i} className="h-3 w-full" />
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

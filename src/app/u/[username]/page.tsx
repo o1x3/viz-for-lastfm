@@ -8,14 +8,13 @@ import { NowPlaying } from "@/components/dashboard/now-playing";
 import { PeriodSwitcher } from "@/components/dashboard/period-switcher";
 import { DashFooter } from "@/components/dashboard/dash-footer";
 import {
-  StatTilesSkeleton,
+  OverviewSkeleton,
   RhythmsSkeleton,
   RotationSkeleton,
   TrackColumnSkeleton,
 } from "@/components/dashboard/section-skeletons";
 import {
-  StatsBand,
-  ShareSection,
+  OverviewSection,
   RhythmsBody,
   RotationBody,
   RecentAndLovedSection,
@@ -147,24 +146,9 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
 
       <NowPlaying initial={recent.tracks[0] ?? null} isOwner={isOwner} />
 
-      {/* stats + play share, one row on lg */}
-      <div className="grid items-stretch gap-3 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <Suspense fallback={<StatTilesSkeleton />}>
-            <StatsBand username={username} />
-          </Suspense>
-        </div>
-        <Suspense
-          fallback={
-            <div
-              aria-hidden="true"
-              className="min-h-64 animate-pulse rounded-lg border border-border bg-card"
-            />
-          }
-        >
-          <ShareSection username={username} period={period} />
-        </Suspense>
-      </div>
+      <Suspense fallback={<OverviewSkeleton />}>
+        <OverviewSection username={username} period={period} />
+      </Suspense>
 
       {/* Rhythms: when the listening happens */}
       <section aria-labelledby="rhythms-heading" className="mt-10">

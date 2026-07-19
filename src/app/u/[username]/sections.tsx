@@ -1,13 +1,12 @@
 import { getRecentAndLoved, getRotation, getStats } from "@/lib/data";
 import type { Period } from "@/lib/lastfm/types";
-import { StatTiles } from "@/components/dashboard/stat-tiles";
+import { OverviewBand } from "@/components/dashboard/overview-band";
 import { RecentTracks } from "@/components/dashboard/recent-tracks";
 import { LovedTracks } from "@/components/dashboard/loved-tracks";
 import { ListeningClock } from "@/components/charts/listening-clock";
 import { WeekdayBars } from "@/components/charts/weekday-bars";
 import { DayStrip } from "@/components/charts/day-strip";
 import { TopArtists } from "@/components/dashboard/top-artists";
-import { ArtistShare } from "@/components/dashboard/artist-share";
 import { TopAlbums } from "@/components/dashboard/top-albums";
 import { TopTracks } from "@/components/dashboard/top-tracks";
 
@@ -23,30 +22,34 @@ function SectionError() {
   );
 }
 
-/** Stat tiles: need the slow 90 day stats, so they stream in behind the masthead. */
-export async function StatsBand({ username }: { username: string }) {
-  const result = await getStats(username);
-  if (!result.ok) {
+/**
+ * Overview band — 90-day stats + the period's play share in one panel.
+ * Both fetches are React-cached, so RhythmsBody and RotationBody reuse them.
+ */
+export async function OverviewSection({
+  username,
+  period,
+}: {
+  username: string;
+  period: Period;
+}) {
+  const [statsResult, rotationResult] = await Promise.all([
+    getStats(username),
+    getRotation(username, period),
+  ]);
+  if (!statsResult.ok && !rotationResult.ok) {
     return (
       <div className="rounded-lg border border-border bg-card p-4">
         <SectionError />
       </div>
     );
   }
-  return <StatTiles stats={result.data} />;
-}
-
-/** Play-share donut — shares the getRotation() request with RotationBody via React cache. */
-export async function ShareSection({ username, period }: { username: string; period: Period }) {
-  const result = await getRotation(username, period);
-  if (!result.ok) {
-    return (
-      <div className="rounded-lg border border-border bg-card p-4">
-        <SectionError />
-      </div>
-    );
-  }
-  return <ArtistShare artists={result.data.topArtists} />;
+  return (
+    <OverviewBand
+      stats={statsResult.ok ? statsResult.data : null}
+      artists={rotationResult.ok ? rotationResult.data.topArtists : null}
+    />
+  );
 }
 
 /** Rhythms charts — shares the getStats() request with StatsBand via React cache. */
