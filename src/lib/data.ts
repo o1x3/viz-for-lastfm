@@ -34,6 +34,9 @@ import type {
 } from "./lastfm/types";
 import { getSession } from "./session";
 
+/** Multiple of every top-albums grid column count (3/4/6) so rows stay full. */
+const ALBUM_GRID_COUNT = 24;
+
 export type SectionError = "no-credentials" | "user-not-found" | "rate-limited" | "upstream";
 
 export type SectionResult<T> = { ok: true; data: T } | { ok: false; error: SectionError };
@@ -116,7 +119,7 @@ export const getRotation = cache(
         ok: true,
         data: {
           topArtists: demoTopArtists(period),
-          topAlbums: demoTopAlbums(period),
+          topAlbums: demoTopAlbums(period, ALBUM_GRID_COUNT),
           topTracks: demoTopTracks(period),
         },
       };
@@ -125,7 +128,7 @@ export const getRotation = cache(
     try {
       const [topArtists, topAlbums, topTracks] = await Promise.all([
         getTopArtists(ctx.creds, username, period),
-        getTopAlbums(ctx.creds, username, period),
+        getTopAlbums(ctx.creds, username, period, ALBUM_GRID_COUNT),
         getTopTracks(ctx.creds, username, period),
       ]);
       return { ok: true, data: { topArtists, topAlbums, topTracks } };

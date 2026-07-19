@@ -43,6 +43,10 @@ const ALBUMS: [string, string][] = [
   ["Dots and Loops", "Stereolab"], ["Black Classical Music", "Yussef Dayes"],
   ["Heaven or Las Vegas", "Cocteau Twins"], ["Carrie & Lowell", "Sufjan Stevens"],
   ["Vulture Prince", "Arooj Aftab"], ["Stratosphere", "Duster"],
+  ["Souvlaki", "Slowdive"], ["Promises", "Floating Points"],
+  ["New Long Leg", "Dry Cleaning"], ["Ants From Up There", "Black Country, New Road"],
+  ["In Colour", "Jamie xx"], ["Devotion", "Beach House"],
+  ["Titanic Rising", "Weyes Blood"], ["Bewitched", "Laufey"],
 ];
 
 const TRACKS: [string, string, string][] = [
